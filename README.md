@@ -1,9 +1,9 @@
 # Storefront-Backend
 
-This is a starter API application for building Store Backend routes to manage and process Shopping Cart ,Orders  Category, Products, Users, Authentication and Store data in Database PostgreSQL.
+This is a starter API application for building Store Backend routes to manage and process Shopping Cart, Orders, Categories, Products, Users, JWT Authentication && Store data in Database PostgreSQL.
 > modules [`nodeJS`](https://nodejs.org/en/) with [`Express`](https://www.npmjs.com/package/expresss), [`TypeScript`](https://www.npmjs.com/package/typescript) , [`ESlint`](https://www.npmjs.com/package/eslint), [`Prettier`](https://www.npmjs.com/package/prettier) , [`Jasmine`](https://www.npmjs.com/package/jasmine) , [`supertest`](https://www.npmjs.com/package/supertest) , [`pg`](https://www.npmjs.com/package/pg) , [`dotenv`](https://www.npmjs.com/package/dotenv) , [`compression`](https://www.npmjs.com/package/compression) , [`bcrypt`](https://www.npmjs.com/package/bcrypt) , [`db-migrate`](https://www.npmjs.com/package/db-migrate) , [`db-migrate-pg`](https://www.npmjs.com/package/db-migrate-pg) , [`morgan`](https://www.npmjs.com/package/morgan) , [`jsonwebtoken`](https://www.npmjs.com/package/jsonwebtoken) , [`cors`](https://www.npmjs.com/package/cors) , [`helmet`](https://www.npmjs.com/package/helmet) . 
 
-- The API application supports SSL and is ready to work on both HTTP and HTTPS.
+- The API application supports SSL and is ready to work on both HTTP and HTTPS. [Create Self Signed Certificate](https://devcenter.heroku.com/articles/ssl-certificate-self)
 - Login feature With Bcrypt password encryption.
 - Json Web Tokens to manage requests authentication.
 - PostgreSQL with pg module driver for data storage
@@ -17,16 +17,17 @@ This is a starter API application for building Store Backend routes to manage an
   - Admins can create orders on behalf users
   - Admin Can Confirm and Delete and Update all setting
   - User can add or remove products to shopping cart
+  - User can process cart and create new order.
   - User can update their owen information
 - All necessary checks have been done as a reference that you can develop on
 - Strong typing is providing by Typescript for reduce errors
+- Testing all Models and Handlers and Functions
 
 # Table of contents:
 
-- [Environment Setup](#Environment-Setup)
 - [Database Setup](#Database-Setup)
+- [Environment Setup](#Environment-Setup)
 - [App Directory](#App-Directory) 
-- [API Documentation](#API-Documentation)
 - [Running the server](#Running-the-server)
 	 - [Starting the server](#Starting-the-server)
 	 - [Linting code error](#Linting-code-error)
@@ -35,48 +36,132 @@ This is a starter API application for building Store Backend routes to manage an
 	 - [build the project](#Build-the-project)
 	 - [Build and Serve the project](#Build-and-Serve-the-project)
 	 - [Run jasmine test](#Run-jasmine-test)
+- [API Documentation](https://github.com/TarekElBarody/storefront-backend/blob/main/REQUIREMENTS.md)
 
 
 
+# Database Setup 
+- Using PostgreSQL 14
+- [Download & Install PostgreSQL](https://www.postgresql.org/download/)
+- Run psql script
+- Create User & database :
 
+```ssh
+CREATE USER store_user WITH PASSWORD '123456789' SUPERUSER  CREATEDB CREATEROLE;
+returns > CREATE ROLE
+
+CREATE DATABASE store_db;
+returns > CREATE DATABASE
+
+CREATE DATABASE store_db_test;
+returns > CREATE DATABASE
+
+GRANT ALL PRIVILEGES ON DATABASE store_db TO store_user;
+returns > GRANT
+
+GRANT ALL PRIVILEGES ON DATABASE store_db_test TO store_user;
+returns > GRANT
+
+```
 
 
 # Environment Setup 
-- Using nodeJS v16.13.2 and NPM 8.4.1
-- If you using lower or higher version of node please use [Node Package Manager](https://www.npmjs.com/)
+- Using nodeJS v16.13.2 and NPM 8.4.1 [Download nodejs](https://nodejs.org/en/download/)
+- If you using lower or higher version of node please use [Node Package Manager](https://nodejs.org/en/download/package-manager/)
 - Install all modules by using :
 ```ssh
 git clone https://github.com/TarekElBarody/storefront-backend.git
 cd  storefront-backend
 npm install
 ```
+- Change .env.example to .env and fill necessary data
+  * ENV                 # dev or test or production
+  * HTTP_PORT           # http port like 8080 or 3000 
+  * HTTPS_PORT          # https port like 8443 or 4000
+  * POSTGRES_HOST       # postgreSQL database hostname for local use localhost
+  * POSTGRES_DB         # dev database name "store_db"
+  * POSTGRES_DB_TEST    # test database name "store_db_test"
+  * POSTGRES_USER       # postgreSQL user name store_user
+  * POSTGRES_PASSWORD   # postgreSQL user password like "123456789"
+  * SECURE              # 0 or 1 to force using https secure connection and not allow regular http
+  * MORGAN              # to enable Morgan to show http access log in console
+  * PEPPER              # a secret word masked with users password to maximize security
+  * ROUND               # bcrypt hasing rounds default 10
+  * TOKEN_SECRET        # JWT token secret for generate tokens
+  * SESSION_SLAT        # session security salt to secure the saved sessions by express
+  * NO_CONSOLE          # 0 or 1 to enable or disable console log for logger function
 
-# Database Setup 
-- Using nodeJS v16.13.2 and NPM 8.4.1
-- If you using lower or higher version of node please use [Node Package Manager](https://www.npmjs.com/)
-- Install all modules by using :
+- you can use this default values for .env
+
+```
+ENV=dev
+
+HTTP_PORT=8080
+HTTPS_PORT=8443
+
+POSTGRES_HOST=localhost
+POSTGRES_DB=store_db
+POSTGRES_DB_TEST=store_db_test
+POSTGRES_USER=store_user
+POSTGRES_PASSWORD=123456789
+
+SECURE=0
+MORGAN=0
+
+PEPPER=make-password-hash-harder
+ROUND=10
+
+TOKEN_SECRET=Cx3hmbWGG7GKpJHg0JsAu9tWUT9Wp0dBu9axV5rzKK7PR1ULKa
+
+SESSION_SLAT=Cx3hmbWGG7GKpJHg0JsAu9tWUT9Wp0dBu9axV5rzKK7PR1ULKa
+
+NO_CONSOLE=1
+```
+
+- Run db migration's
 ```ssh
-git clone https://github.com/TarekElBarody/storefront-backend.git
-cd  storefront-backend
-npm install
+npm run db-migrate
+```
+
+- You can create the store_db by using built in script
+
+> you have to change the database name inside the package.json script block
+
+```ssh
+npm run prep-db
 ```
 
 # App Directory 
 ```
- - dist               # transpile Typescript to es5 js to this folder
-   - env              # store ssl keys and user.json for saved password
-   - images           # store and process the resizing and caching for images
-   - logs             # store user logs and processing image logs and access server logs
-   - public           # public folder for front-end (html > css > js)
-   - spec             # configures for Jasmine Testing
-   - src              # source code for typescript *.ts
-     - lib            # function , middleware , helper , types
-     - routes         # API routs & web routs
-     - tests          # Jasmine testing
-   - package.json     # store all script and module and configuration for node project
-   - tsconfig.json    # store Typescript Configuration
-   - .prettierrc      # store Prettier configuration for code formatter
-   - .eslintrc        # store ESlint code linting for typescript
+   - dist                # transpile Typescript to es5 js to this folder
+   - cert                # store ssl keys (server.cert) & (server.key)
+   - logs                # store user logs and Morgan access server logs
+   - public              # public folder for front-end (html > css > js)
+   - spec                # configures for Jasmine Testing
+   - src                 # source code for typescript *.ts
+     - handlers          # endpoint handler files for model store
+        - test           # test file for handlers file
+     - lib               # function , middleware , helper , config , app
+        - config         # config file like database.ts for database client configuration
+        - function       # general functions & hash & token function & logger function
+            - test       # test for important function like hashing and jwt tokens
+        - helpers        # helper file like reporter for jasmine and session data
+        - middleware     # express middleware controller like forcing https and jwt authentication
+     - models            # all models file that connect to the database using CRUD SQL
+        - test           # test file for Models file
+     - routes            # API routs & web routs
+     - services          # services controller for more complex data structure
+        - controller     # controller files calls data binding from endpoint requests
+          - test         # test for controller files 
+        - dataBinding    # data joins and relations for complex data binding 
+          - test         # test for data binding files
+     - types             # configure all types for all data and function
+   - package.json        # store all script and module and configuration for node project
+   - tsconfig.json       # store Typescript Configuration
+   - .prettierrc         # store Prettier configuration for code formatter
+   - .eslintrc           # store ESlint code linting for typescript
+   - database.json       # db-migrate configuration file
+   - .env.example        # example of .env for store node environment sensitive data
 
 ```
 
@@ -85,17 +170,14 @@ npm install
 #### Starting the server
 > we user ts-node & nodemon to running the code
 ```ssh
-npm start
-> storefront-backend@1.0.0 start
-> nodemon
+npm run watch
+> storefront-backend@1.0.0 db-test-drop
+12:00:00 AM - Starting compilation in watch mode...
 
-[nodemon] 2.0.15
-[nodemon] to restart at any time, enter `rs`
-[nodemon] watching path(s): src/**/*
-[nodemon] watching extensions: ts
-[nodemon] starting `ts-node ./src/index.ts`
-HTTP server on port 3000 at http://localhost:3000/
-HTTPS server on port 4000 at https://localhost:4000/
+
+12:00:10 AM - Found 0 errors. Watching for file changes.
+HTTP server on port 8080 at http://localhost:8080/api
+HTTPS server on port 8443 at https://localhost:8443/api
 ```
 
 #### Linting code error
