@@ -36,7 +36,7 @@ This is a starter API application for building Store Backend routes to manage an
 	 - [build the project](#Build-the-project)
 	 - [Build and Serve the project](#Build-and-Serve-the-project)
 	 - [Run jasmine test](#Run-jasmine-test)
-- [API Documentation](https://github.com/TarekElBarody/storefront-backend/blob/main/REQUIREMENTS.md)
+- [API Routes & Database Schema](https://github.com/TarekElBarody/storefront-backend/blob/main/REQUIREMENTS.md)
 
 
 
@@ -417,8 +417,3 @@ HTTPS server on port 8443 at https://localhost:8443/api
 [INFO] Deleted database "store_db_test"
 
 ```
-
-
-
-
-
