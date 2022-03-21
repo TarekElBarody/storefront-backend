@@ -1,7 +1,17 @@
-# API Requirements
-The company stakeholders want to create an online storefront to showcase their great product ideas. Users need to be able to browse an index of all products, see the specifics of a single product, and add products to an order that they can view in a cart page. You have been tasked with building the API that will support this application, and your coworker is building the frontend.
+# API Endpoint & Database Schema
+Use the coming structre to can undertand and maintaned the functionality of the storefront backend API and database schema and to learn how to process and access difrent endpoint to perform defrent actions
+> NOTE THAT THE SERVER AT START WILL INSERT THE DEFAULT ADMIN USER WITH DEFAULT PASSWORD
+> YOU SOULD LOGIN FIRST TO GENERATE ADMIN TOKEN
+```
+{
+    "email": "admin@admin.com",
+    "password": "123456789"
+}
+```
 
-These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
+- [API Endpoints](#API-Endpoints)
+- [Database Shcema](#Database-Shcema)
+- [Environment Setup](#Environment-Setup)
 
 ## API Endpoints
 #### Products
@@ -20,7 +30,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Current Order by user (args: user id)[token required]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
-## Data Shapes
+## Database Shcema
 #### Product
 -  id
 - name
