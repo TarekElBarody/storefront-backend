@@ -18,10 +18,13 @@ dotenv.config();
 const userLog = new logger('userLog');
 
 const index = async (req: Request, res: Response): Promise<void> => {
+  const user_id = Number(req.params.id);
   if (
     req.session.user &&
     req.session.isToken === true &&
-    (req.session.isAdmin === true || (req.session.user.role as number) == 2)
+    (req.session.isAdmin === true ||
+      (req.session.user.role as number) == 2 ||
+      (req.session.user.id as number) == user_id)
   ) {
     try {
       const orderID = Number(req.params.oid);
@@ -119,10 +122,13 @@ const create = async (req: Request, res: Response): Promise<void> => {
 };
 
 const show = async (req: Request, res: Response): Promise<void> => {
+  const user_id = Number(req.params.id);
   if (
     req.session.user &&
     req.session.isToken === true &&
-    (req.session.isAdmin === true || (req.session.user.role as number) == 2)
+    (req.session.isAdmin === true ||
+      (req.session.user.role as number) == 2 ||
+      (req.session.user.id as number) == user_id)
   ) {
     try {
       const orderItems = await store.show(
@@ -244,6 +250,8 @@ const orderItemsHandler = (apiRoute: express.Router) => {
   apiRoute.post('/orders/:oid/items/add', verifyTokens, create);
   apiRoute.put('/orders/:oid/items/:id', verifyTokens, update);
   apiRoute.delete('/orders/:oid/items/:id', verifyTokens, deleteOrderItems);
+  apiRoute.get('/users/:uid/orders/:oid/items', verifyTokens, index);
+  apiRoute.get('/users/:uid/orders/:oid/items/:id', verifyTokens, show);
 };
 
 export default orderItemsHandler;

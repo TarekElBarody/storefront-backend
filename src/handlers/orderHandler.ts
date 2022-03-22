@@ -345,12 +345,12 @@ const deleteOrder = async (req: Request, res: Response): Promise<void> => {
 };
 
 const orderHandler = (apiRoute: express.Router) => {
-  apiRoute.get('/orders', verifyTokens, index);
   apiRoute.get('/users/:id/orders', verifyTokens, userOrders);
-  apiRoute.get('/orders/:id', verifyTokens, show);
   apiRoute.get('/users/:id/order/:oid', verifyTokens, showUserOrder);
-  apiRoute.post('/orders/add', verifyTokens, create);
   apiRoute.post('/orders/process', verifyTokens, processOrder);
+  apiRoute.get('/orders', verifyTokens, index);
+  apiRoute.get('/orders/:id', verifyTokens, show);
+  apiRoute.post('/orders/add', verifyTokens, create);
   apiRoute.put('/orders/:id', verifyTokens, update);
   apiRoute.delete('/orders/:id', verifyTokens, deleteOrder);
 };
