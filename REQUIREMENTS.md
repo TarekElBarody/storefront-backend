@@ -114,15 +114,15 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 ## Database Shcema
 
-- [Users TABLE](#Users-(TABLE-users))
-- [Categories TABLE](#Categories-(TABLE-categories))
-- [Products TABLE](#Products-(TABLE-products))
-- [Shopping Cart TABLE](#Shopping-Cart-(TABLE-shopping_cart))
-- [Category Path FUNCTION](#Category-Path-(FUNCTION-category_path))
-- [Shopping Cart VIEW](#Shopping-Cart-(VIEW-cart_view))
-- [Categories TABLE](#Categories-(TABLE-categories))
-- [Categories TABLE](#Categories-(TABLE-categories))
-- [Categories TABLE](#Categories-(TABLE-categories))
+- [Users TABLE](#Users-TABLE-users)
+- [Categories TABLE](#Categories-TABLE-categories)
+- [Products TABLE](#Products-TABLE-products)
+- [Shopping Cart TABLE](#Shopping-Cart-TABLE-shopping_cart)
+- [Category Path FUNCTION](#Category-Path-FUNCTION-category_path)
+- [Shopping Cart VIEW](#Shopping-Cart-VIEW-cart_view)
+- [Categories TABLE](#Categories-TABLE-categories)
+- [Categories TABLE](#Categories-TABLE-categories)
+- [Categories TABLE](#Categories-TABLE-categories)
 
 
 #### Users (TABLE users)
@@ -139,7 +139,7 @@ Use the following structre to can undertand and maintaned the functionality of t
 #### Categories (TABLE categories)
 - id [SERIAL PRIMARY KEY]
 - name [VARCHAR(100)] [UNIQUE]
-- parent [INTEGER] > the parent Categories.id
+- parent [INTEGER] > the parent categories.id
 - icon [VARCHAR(255)]
 - created [DATE]
 
@@ -172,18 +172,18 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 #### Shopping Cart View (VIEW cart_view)
 > SHOPPING CART LEFT JOIN PRODUCTS LEFT JOIN CATEGOREIS
-- id [INTEGER]  > from [shopping_cart.id](#Shopping-Cart-(TABLE-shopping_cart))
-- user_id [INTEGER] > from [shopping_cart.user_id](#Shopping-Cart-(TABLE-shopping_cart))
-- product_id [INTEGER] > from [shopping_cart.product_id](#Shopping-Cart-(TABLE-shopping_cart))
-- qty [INTEGER] > from [shopping_cart.qty](#Shopping-Cart-(TABLE-shopping_cart))
-- name [VARCHAR(255)] > from [products.name](#Products-(TABLE-products))
-- description [TEXT] > from [products.description](#Products-(TABLE-products))
-- category [TEXT] > from function [category_path](#Category-Path-(FUNCTION-category_path))([products.category_id](#Products-(TABLE-products)))
-- price [NUMERIC(18,3)] > from [products.price](#Products-(TABLE-products))
-- total [NUMERIC(18,3)] > from [products.price](#Products-(TABLE-products)) * [shopping_cart.qty](#Shopping-Cart-(TABLE-shopping_cart))
-- details [JSON] > from [products.details](#Products-(TABLE-products))
-- image [VARCHAR(255)] > from  [products.image](#Products-(TABLE-products))
-- note [TEXT] > from  [shopping_cart.note](#Shopping-Cart-(TABLE-shopping_cart))
+- id [INTEGER]  > from [shopping_cart.id](#Shopping-Cart-TABLE-shopping_cart)
+- user_id [INTEGER] > from [shopping_cart.user_id](#Shopping-Cart-TABLE-shopping_cart)
+- product_id [INTEGER] > from [shopping_cart.product_id](#Shopping-Cart-TABLE-shopping_cart)
+- qty [INTEGER] > from [shopping_cart.qty](#Shopping-Cart-TABLE-shopping_cart)
+- name [VARCHAR(255)] > from [products.name](#Products-TABLE-products)
+- description [TEXT] > from [products.description](#Products-TABLE-products)
+- category [TEXT] > from function [category_path](#Category-Path-FUNCTION-category_path)([products.category_id](#Products-TABLE-products))
+- price [NUMERIC(18,3)] > from [products.price](#Products-TABLE-products)
+- total [NUMERIC(18,3)] > from [products.price](#Products-TABLE-products) * [shopping_cart.qty](#Shopping-Cart-TABLE-shopping_cart)
+- details [JSON] > from [products.details](#Products-TABLE-products)
+- image [VARCHAR(255)] > from  [products.image](#Products-TABLE-products)
+- note [TEXT] > from  [shopping_cart.note](#Shopping-Cart-TABLE-shopping_cart)
 
 #### Orders (TABLE orders)
 > ONE TO MANY (users -> orders)
