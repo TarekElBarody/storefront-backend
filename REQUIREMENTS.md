@@ -15,15 +15,25 @@ Use the coming structre to can undertand and maintaned the functionality of the 
 - [Environment Setup](#Environment-Setup)
 
 ## API Endpoints
-#### Products
+#### Users
+> CHANGE :id WITH ACTUAL USER NUMBER
+- Index  [admin token]   🚩    ✅ GET [/api/users](#Index-Users)     
+- Show   [user token]    🚩    ✅ GET [/api/users/:id](#Show-Users)     
+- Create [general role]  🏳     ✅ POST [/api/users/add](#Add-Users)
+- Update [user token]    🚩    ✅ PUT [/api/users/:id](#Update-Users)
+- Delete [admin token]   🚩    ✅ DELETE [/api/users/:id](#Delete-Users)
+- Reset  [user token]    🚩    ✅ PUT [/api/users/:id/reset](#Reset-Users)
+- Login  [user token]    🚩    ✅ DELETE [/api/users/auth](#Login-Users)
+
+
 - Index 
 - Show
-- Create [token required]()
+- Create [token required] <span style="color:orange;">Word up</span>
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required]
+- Index [token required] 🚩
 - Show [token required]
 - Create N[token required]
 
