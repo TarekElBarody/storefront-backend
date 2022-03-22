@@ -1,5 +1,5 @@
 CREATE OR REPLACE VIEW orders_user_view AS
-SELECT id, user_id, qty_count, total, confirmed_by, confirmed_date, payment_type, note, status,
+SELECT id, user_id, qty_count, total, confirmed_by, confirmed_date, payment_type, note, status, created,
 (SELECT coalesce(json_agg(items), '[]'::json)
 FROM (
     SELECT 

@@ -18,7 +18,7 @@ FROM (
 				'note', note					
             )
         ) as items
-    FROM cart_view
+    FROM cart_view WHERE user_id = users.id
     GROUP by id
 	ORDER BY id ASC
 )s) AS cart_items
