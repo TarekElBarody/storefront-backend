@@ -59,6 +59,9 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 #### Products
 > CHANGE :id WITH Product ID NUMBER
+
+> [Products Access API](#Products-Access-API)
+
 - Index  ⚪    -  GET [/api/products](#Index-Products)     
 - Show  ⚪    -  GET [/api/products/:id](#Show-Products)     
 - Create  🔴    -  POST [/api/products/add](#Add-Products)
@@ -67,12 +70,15 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 #### Shopping Cart
 > CHANGE :id WITH User ID NUMBER & :cid WITH Shopping Cart Item Number
-- Index  🟢    -  GET [/api/users/:id/cart](#Index-Shopping-Cart)     
-- Show  🟢    -  GET [/api/users/:id/cart/:cid](#Show-Shopping-Cart)     
-- Create  🟢    -  POST [/api/users/:id/cart/add](#Add-Shopping-Cart)
-- Update 🟢    -  PUT [/api/users/:id/cart/:cid](#Update-Shopping-Cart)
-- Delete 🟢   -  DELETE [/api/users/:id/cart/:cid](#Delete-Shopping-Cart)
-- Empty 🟢   -  DELETE [/api/users/:id/cart](#Delete-Shopping-Cart)
+
+> [Shopping Cart Access API](#Shopping-Cart-Access-API)
+
+- Create  🟢    -  POST [/api/users/:id/cart/add](#Create-Shopping-Cart-Item)
+- Index  🟢    -  GET [/api/users/:id/cart](#Index-Shopping-Cart-Items)     
+- Show  🟢    -  GET [/api/users/:id/cart/:cid](#Show-Shopping-Cart-Item)     
+- Update 🟢    -  PUT [/api/users/:id/cart/:cid](#Update-Shopping-Cart-Item)
+- Delete 🟢   -  DELETE [/api/users/:id/cart/:cid](#Delete-Shopping-Cart-Item)
+- Empty 🟢   -  DELETE [/api/users/:id/cart](#Empty-Shopping-Cart-Items)
 
 
 #### Orders
@@ -565,56 +571,43 @@ RESPONSE >>
 ``` 
 
 
-#### Index Users 
-> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
-
-`GET /api/users` 🔴
-```
-Authorization: Bearer {TOKEN}
-
-    http://localhost:{HTTP_PORT}/api/users
-
-RESPONSE >>
-
-    HTTP/1.1 200 OK
-    Content-Type: application/json
-
-    [
-        {
-            "id": 1,
-            "first_name": "Admin",
-            "last_name": "Admin",
-            "birthday": "1990-03-30T22:00:00.000Z",
-            "email": "admin@admin.com",
-            "mobile": "01111111111",
-            "role": 1,
-            "created": "2022-03-22T02:03:50.662Z",
-            "order_count": 0,
-            "order_sum": 0,
-            "most_products": [],
-            "last_orders": []
-        }
-    ]
-``` 
-
-
 ### Categories Access API
 
 #### Create Categories 
 > GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-`POST /api/users/add` 🔴
+`POST /api/categories/add` 🔴
 ```
+Authorization: Bearer {TOKEN}
+
     http://localhost:{HTTP_PORT}/api/categories/add
 
 DATA SEND {
-            "email": "user@user.com",
-            "password": "123456789",
-            "first_name": "User",
-            "last_name": "User",
-            "birthday": "1990-01-01",
-            "mobile": "02222222222",
-            "role": "3" // ONLY AVALIABLE FOR ADMIN TOKENS
+            "name": "Computers",
+            "parent": "0",
+            "icon": "http://cdn.app.com/images/icon/computer.png"
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 1,
+        "name": "Computers",
+        "parent": 0,
+        "icon": "http://cdn.app.com/images/icon/computer.png",
+        "created": "2022-03-22T19:28:38.903Z"
+    }
+
+    http://localhost:{HTTP_PORT}/api/categories/add
+
+DATA SEND {
+            "name": "Laptops",
+            "parent": "0",
+            "icon": "http://cdn.app.com/images/icon/laptop.png"
         }
 
 
@@ -625,25 +618,20 @@ RESPONSE >>
 
     {
         "id": 2,
-        "first_name": "User",
-        "last_name": "User",
-        "birthday": "1990-03-31T22:00:00.000Z",
-        "email": "user@user.com",
-        "mobile": "02222222222",
-        "role": 3,
-        "created": "2022-03-22T18:31:47.119Z"
+        "name": "Laptops",
+        "parent": 0,
+        "icon": "http://cdn.app.com/images/icon/laptop.png",
+        "created": "2022-03-22T19:30:20.370Z"
     }
 ``` 
 
 
 #### Index Categories 
-> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+> NO TOKEN IS REQUIERD
 
-`GET /api/users` 🔴
+`GET /api/categories` ⚪
 ```
-Authorization: Bearer {TOKEN}
-
-    http://localhost:{HTTP_PORT}/api/users
+    http://localhost:{HTTP_PORT}/api/categories
 
 RESPONSE >>
 
@@ -653,71 +641,58 @@ RESPONSE >>
     [
         {
             "id": 1,
-            "first_name": "Admin",
-            "last_name": "Admin",
-            "birthday": "1990-03-30T22:00:00.000Z",
-            "email": "admin@admin.com",
-            "mobile": "01111111111",
-            "role": 1,
-            "created": "2022-03-22T02:03:50.662Z",
-            "order_count": 0,
-            "order_sum": 0,
-            "most_products": [],
-            "last_orders": []
+            "name": "Computers",
+            "parent": 0,
+            "icon": "http://cdn.app.com/images/icon/computer.png",
+            "created": "2022-03-22T19:28:38.903Z"
+        },
+        {
+            "id": 2,
+            "name": "Laptop",
+            "parent": 0,
+            "icon": "http://cdn.app.com/images/icon/laptop.png",
+            "created": "2022-03-22T19:30:20.370Z"
         }
     ]
 ``` 
 
 #### Show Categories 
-> GENERATE USER OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+> NO TOKEN IS REQUIERD
 
-> CHANGE :id WITH USER ID NUMBER
+> CHANGE :id WITH Category ID NUMBER
 
-`GET /api/users/:id` 🟢
+`GET /api/categories/:id` 🟢
 ```
-Authorization: Bearer {TOKEN}
-
-    http://localhost:{HTTP_PORT}/api/users/1
+    http://localhost:{HTTP_PORT}/api/categories/1
 
 RESPONSE >>
 
     HTTP/1.1 200 OK
     Content-Type: application/json
 
-    [
-        {
-            "id": 1,
-            "first_name": "Admin",
-            "last_name": "Admin",
-            "birthday": "1990-03-30T22:00:00.000Z",
-            "email": "admin@admin.com",
-            "mobile": "01111111111",
-            "role": 1,
-            "created": "2022-03-22T02:03:50.662Z",
-            "order_count": 0,
-            "order_sum": 0,
-            "most_products": [],
-            "last_orders": []
-        }
-    ]
+    {
+        "id": 1,
+        "name": "Computers",
+        "parent": 0,
+        "icon": "http://cdn.app.com/images/icon/computer.png",
+        "created": "2022-03-22T19:28:38.903Z"
+    }
 ``` 
 
 
 #### Update Categories 
-> GENERATE USER OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-> CHANGE :id WITH USER ID NUMBER
+> CHANGE :id WITH Category ID NUMBER
 
-`PUT /api/users/:id` 🟢
+`PUT /api/categories/:id` 🔴
 ```
-    http://localhost:{HTTP_PORT}/api/users/2
+    http://localhost:{HTTP_PORT}/api/categories/2
 
 DATA SEND {
-            "email": "user2@user2.com",
-            "first_name": "User2",
-            "last_name": "User2",
-            "birthday": "1980-01-01",
-            "mobile": "01222222222",
+            "name": "Business Laptops",
+            "parent": "1",
+            "icon": "http://cdn.app.com/images/icon/Business-Laptops.png"
         }
 
 
@@ -728,24 +703,23 @@ RESPONSE >>
 
     {
         "id": 2,
-        "first_name": "User2",
-        "last_name": "User2",
-        "birthday": "1979-12-31T22:00:00.000Z",
-        "email": "user2@user2.com",
-        "mobile": "01222222222",
-        "role": 3,
-        "created": "2022-03-22T18:31:47.119Z"
+        "name": "Business Laptops",
+        "parent": 1,
+        "icon": "http://cdn.app.com/images/icon/Business-Laptops.png",
+        "created": "2022-03-22T19:30:20.370Z"
     }
 ``` 
 
 #### Delete Categories 
 > GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-> CHANGE :id WITH USER ID NUMBER
+> ONLY Categories ID THAT NOT INCLUDED IN PARENT ID REFRENCE CAN BE DELETED
 
-`DELETE /api/users/:id` 🔴
+> CHANGE :id WITH Category ID NUMBER
+
+`DELETE /api/categories/:id` 🔴
 ```
-    http://localhost:{HTTP_PORT}/api/users/2
+    http://localhost:{HTTP_PORT}/api/categories/2
 
 RESPONSE >>
 
@@ -754,14 +728,521 @@ RESPONSE >>
 
     {
         "id": 2,
-        "first_name": "User2",
-        "last_name": "User2",
-        "birthday": "1979-12-31T22:00:00.000Z",
-        "email": "user2@user2.com",
-        "mobile": "01222222222",
-        "role": 3,
-        "created": "2022-03-22T18:31:47.119Z"
+        "name": "Business Laptops",
+        "parent": 1,
+        "icon": "http://cdn.app.com/images/icon/Business-Laptops.png",
+        "created": "2022-03-22T19:30:20.370Z"
     }
 
 
+``` 
+
+
+
+### Products Access API
+
+#### Create Products
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`POST /api/products/add` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/products/add
+
+DATA SEND {
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category_id": "1",
+            "price": "2200.0",
+            "stock": "51",
+            "details": "{\"items\": [{ \"name\": \"Brand\", \"value\": \"Zero\" },{ \"name\": \"Power\", \"value\": \"10000 AMP\" }]}",
+            "image": "assets/images/products/01.jpg",
+            "status": "1"
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 1,
+        "name": "Zero Power Bank 10000 AMP",
+        "description": "Zero Power Bank 10000 AMP",
+        "category_id": 1,
+        "price": 2200,
+        "stock": 51,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "Power",
+                    "value": "10000 AMP"
+                }
+            ]
+        },
+        "image": "assets/images/products/01.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:25:14.825Z"
+    }
+
+    http://localhost:{HTTP_PORT}/api/products/add
+
+DATA SEND {
+            "name": "AA Alkaline Batteries 1.5 V",
+            "description": "AA Alkaline Batteries 1.5 V",
+            "category_id": "1",
+            "price": "23.00",
+            "stock": "1000",
+            "details": "{\"items\":[{\"name\":\"Brand\",\"value\":\"Zero\"},{\"name\":\"AMP\",\"value\":\"2300\"}]}",
+            "image": "assets/images/products/02.jpg",
+            "status": "1"
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category_id": 1,
+        "price": 23,
+        "stock": 1000,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:40:35.837Z"
+    }
+
+    
+``` 
+
+
+#### Index Products
+> NO TOKEN IS REQUIERD
+
+`GET /api/products` ⚪
+```
+    http://localhost:{HTTP_PORT}/api/products
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category_id": 1,
+            "price": 2200,
+            "stock": 51,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "Power",
+                        "value": "10000 AMP"
+                    }
+                ]
+            },
+            "image": "assets/images/products/01.jpg",
+            "status": 1,
+            "created": "2022-03-22T20:25:14.825Z"
+        },
+        {
+            "id": 2,
+            "name": "AA Alkaline Batteries 1.5 V",
+            "description": "AA Alkaline Batteries 1.5 V",
+            "category_id": 1,
+            "price": 23,
+            "stock": 1000,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "AMP",
+                        "value": "2300"
+                    }
+                ]
+            },
+            "image": "assets/images/products/02.jpg",
+            "status": 1,
+            "created": "2022-03-22T20:40:35.837Z"
+        }
+
+    ]
+``` 
+
+#### Show Products
+> NO TOKEN IS REQUIERD
+
+> CHANGE :id WITH Product ID NUMBER
+
+`GET /api/products/:id` 🟢
+```
+    http://localhost:{HTTP_PORT}/api/products/1
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 1,
+        "name": "Zero Power Bank 10000 AMP",
+        "description": "Zero Power Bank 10000 AMP",
+        "category_id": 1,
+        "price": 2200,
+        "stock": 51,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "Power",
+                    "value": "10000 AMP"
+                }
+            ]
+        },
+        "image": "assets/images/products/01.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:25:14.825Z"
+    }
+``` 
+
+
+#### Update Products
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH Product ID NUMBER
+
+`PUT /api/products/:id` 🔴
+```
+    http://localhost:{HTTP_PORT}/api/products/2
+
+DATA SEND {
+            "price": "32.00",
+            "stock": "2000"
+          }
+
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category_id": 1,
+        "price": 32.00,
+        "stock": 2000,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:39:14.431Z"
+    }
+``` 
+
+#### Delete Products
+
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH Product ID NUMBER
+
+`DELETE /api/products/:id` 🔴
+```
+    http://localhost:{HTTP_PORT}/api/products/2
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category_id": 1,
+        "price": 32.00,
+        "stock": 2000,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:39:14.431Z"
+    }
+``` 
+
+
+### Shopping Cart Access API
+
+#### Create Shopping Cart Item
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`POST /api/users/:id/:cid/add` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/cart/add
+
+DATA SEND {
+            "product_id": "1",
+            "qty": "2",
+            "note": "test note"
+         }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 1,
+        "user_id": 1,
+        "product_id": 1,
+        "qty": 2,
+        "name": "Zero Power Bank 10000 AMP",
+        "description": "Zero Power Bank 10000 AMP",
+        "category": "Computers",
+        "price": 2200,
+        "total": 4400,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "Power",
+                    "value": "10000 AMP"
+                }
+            ]
+        },
+        "image": "assets/images/products/01.jpg",
+        "note": "test note"
+    }
+
+   
+``` 
+
+
+#### Index Shopping Cart Items
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`GET /api/users/:id/cart` 🟢
+```
+    http://localhost:{HTTP_PORT}/api/users/1/cart
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "user_id": 1,
+            "product_id": 1,
+            "qty": 2,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category": "Computers",
+            "price": 2200,
+            "total": 4400,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "Power",
+                        "value": "10000 AMP"
+                    }
+                ]
+            },
+            "image": "assets/images/products/01.jpg",
+            "note": "test note"
+        }
+
+    ]
+``` 
+
+#### Show Shopping Cart Items
+> NO TOKEN IS REQUIERD
+
+> CHANGE :id WITH Product ID NUMBER
+
+`GET /api/users/:id/cart/:cid` 🟢
+```
+    http://localhost:{HTTP_PORT}/api/users/1/cart/1
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 1,
+        "name": "Zero Power Bank 10000 AMP",
+        "description": "Zero Power Bank 10000 AMP",
+        "category_id": 1,
+        "price": 2200,
+        "stock": 51,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "Power",
+                    "value": "10000 AMP"
+                }
+            ]
+        },
+        "image": "assets/images/products/01.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:25:14.825Z"
+    }
+``` 
+
+
+#### Update Shopping Cart Items
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH Product ID NUMBER
+
+`PUT /api/users/:id/:cid/:id` 🔴
+```
+    http://localhost:{HTTP_PORT}/api/users/:id/:cid/2
+
+DATA SEND {
+            "price": "32.00",
+            "stock": "2000"
+          }
+
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category_id": 1,
+        "price": 32.00,
+        "stock": 2000,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:39:14.431Z"
+    }
+``` 
+
+#### Delete Shopping Cart Items
+
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH Product ID NUMBER
+
+`DELETE /api/users/:id/:cid/:id` 🔴
+```
+    http://localhost:{HTTP_PORT}/api/users/:id/:cid/2
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category_id": 1,
+        "price": 32.00,
+        "stock": 2000,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:39:14.431Z"
+    }
 ``` 
