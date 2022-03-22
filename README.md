@@ -75,16 +75,16 @@ cd  storefront-backend
 npm install
 ```
 - Change .env.example to .env and fill necessary data
-  * ENV                 [# dev or test or production]
-  * HTTP_PORT           [# http port like 8080 or 3000 ]
-  * HTTPS_PORT          [# https port like 8443 or 4000]
+  * ENV                 ># dev or test or production
+  * HTTP_PORT           ># http port like 8080 or 3000
+  * HTTPS_PORT          ># https port like 8443 or 4000
   * POSTGRES_HOST       # postgreSQL database hostname for local use localhost
   * POSTGRES_DB         # dev database name "store_db"
   * POSTGRES_DB_TEST    # test database name "store_db_test"
   * POSTGRES_USER       # postgreSQL user name store_user
   * POSTGRES_PASSWORD   # postgreSQL user password like "123456789"
   * SECURE              # 0 or 1 to force using https secure connection and not allow regular http
-  * MORGAN              # to enable Morgan to show http access log in console
+  * MORGAN              # 0 or 1 to enable Morgan to show http access log in console
   * PEPPER              # a secret word masked with users password to maximize security
   * ROUND               # bcrypt hashing rounds default 10
   * TOKEN_SECRET        # JWT token secret for generate tokens
@@ -163,6 +163,7 @@ npm run migrate
 
 #### Starting the server
 > we use tsc-watch to debug and running the server
+
 > NOTE THAT IF YOU RUN THE SERVER FOR 1ST TIME IT WILL GENERATE THE DEFAULT ADMIN USER LOGIN
 ```ssh
 npm run watch
@@ -400,7 +401,6 @@ HTTPS server on port 8443 at https://localhost:8443/api
 
 >   Executed 112 of 112 specs SUCCESS in 5 secs.
 
-> store-backend@1.0.0 db-test-drop
-> db-migrate -e create db:drop store_db_test
-
 ```
+
+* [API Routes & Database Schema](https://github.com/TarekElBarody/storefront-backend/blob/main/REQUIREMENTS.md)
