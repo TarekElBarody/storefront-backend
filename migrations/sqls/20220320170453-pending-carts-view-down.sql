@@ -1,0 +1,1 @@
+DROP VIEW pending_carts CASCADE;

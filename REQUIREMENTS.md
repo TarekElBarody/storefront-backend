@@ -3,6 +3,7 @@ Use the coming structre to can undertand and maintaned the functionality of the 
 > NOTE THAT THE SERVER AT START WILL INSERT THE DEFAULT ADMIN USER WITH DEFAULT PASSWORD
 > YOU SOULD LOGIN FIRST TO GENERATE ADMIN TOKEN
 ```
+
 {
     "email": "admin@admin.com",
     "password": "123456789"

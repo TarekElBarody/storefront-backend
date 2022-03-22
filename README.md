@@ -47,7 +47,7 @@ This is a starter API application for building Store Backend routes to manage an
 - Create User & database :
 
 ```ssh
-CREATE USER store_user WITH PASSWORD '123456789' SUPERUSER  CREATEDB CREATEROLE;
+CREATE USER store_user WITH PASSWORD '123456789';
 returns > CREATE ROLE
 
 CREATE DATABASE store_db;
@@ -75,9 +75,9 @@ cd  storefront-backend
 npm install
 ```
 - Change .env.example to .env and fill necessary data
-  * ENV                 # dev or test or production
-  * HTTP_PORT           # http port like 8080 or 3000 
-  * HTTPS_PORT          # https port like 8443 or 4000
+  * ENV                 [# dev or test or production]
+  * HTTP_PORT           [# http port like 8080 or 3000 ]
+  * HTTPS_PORT          [# https port like 8443 or 4000]
   * POSTGRES_HOST       # postgreSQL database hostname for local use localhost
   * POSTGRES_DB         # dev database name "store_db"
   * POSTGRES_DB_TEST    # test database name "store_db_test"
@@ -86,7 +86,7 @@ npm install
   * SECURE              # 0 or 1 to force using https secure connection and not allow regular http
   * MORGAN              # to enable Morgan to show http access log in console
   * PEPPER              # a secret word masked with users password to maximize security
-  * ROUND               # bcrypt hasing rounds default 10
+  * ROUND               # bcrypt hashing rounds default 10
   * TOKEN_SECRET        # JWT token secret for generate tokens
   * SESSION_SLAT        # session security salt to secure the saved sessions by express
   * NO_CONSOLE          # 0 or 1 to enable or disable console log for logger function
@@ -120,16 +120,10 @@ NO_CONSOLE=1
 
 - Run db migration's
 ```ssh
-npm run db-migrate
+npm run migrate
 ```
+> YOU CAN USE AFTER THAT migrate-up , migrate-down, migrate-reset
 
-- You can create the store_db by using built in script
-
-> you have to change the database name inside the package.json script block
-
-```ssh
-npm run prep-db
-```
 
 # App Directory 
 ```
@@ -168,16 +162,27 @@ npm run prep-db
 ## Running the server
 
 #### Starting the server
-> we user ts-node & nodemon to running the code
+> we use tsc-watch to debug and running the server
+> NOTE THAT IF YOU RUN THE SERVER FOR 1ST TIME IT WILL GENERATE THE DEFAULT ADMIN USER LOGIN
 ```ssh
 npm run watch
-> storefront-backend@1.0.0 db-test-drop
 12:00:00 AM - Starting compilation in watch mode...
 
 
 12:00:10 AM - Found 0 errors. Watching for file changes.
 HTTP server on port 8080 at http://localhost:8080/api
 HTTPS server on port 8443 at https://localhost:8443/api
+1st time Default admin is created with email: admin@admin.com and password: 123456789
+TOKEN  {
+  success: true,
+  err: {},
+  data: {
+    exp: 1647911030.895,
+    data: { id: 1, first_name: 'Admin', last_name: 'Admin', role: 1 }
+  },
+  token: 'token_data_here'
+}
+
 ```
 
 #### Linting code error
@@ -217,22 +222,6 @@ npm run serve
 npm run test
 ```
 ```diff
-> store-backend@1.0.0 test
-> ENV=test npm run db-test-drop && npm run db-test-create && npm run db-test-migrate && npm run build && ENV=test jasmine && npm run db-test-drop
-
-
-> store-backend@1.0.0 db-test-drop
-> db-migrate -e create db:drop store_db_test
-
-[INFO] Deleted database "store_db_test"
-
-> store-backend@1.0.0 db-test-create
-> db-migrate -e create db:create store_db_test
-
-[INFO] Created database "store_db_test"
-
-> store-backend@1.0.0 db-test-migrate
-> db-migrate up -e test
 
 [INFO] Processed migration 20220308230147-users-table
 [INFO] Processed migration 20220314111816-categories-table
@@ -413,7 +402,5 @@ HTTPS server on port 8443 at https://localhost:8443/api
 
 > store-backend@1.0.0 db-test-drop
 > db-migrate -e create db:drop store_db_test
-
-[INFO] Deleted database "store_db_test"
 
 ```
