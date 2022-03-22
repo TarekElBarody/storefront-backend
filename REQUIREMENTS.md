@@ -119,7 +119,7 @@ Use the following structre to can undertand and maintaned the functionality of t
 - [Products TABLE](#Products-TABLE-products)
 - [Shopping Cart TABLE](#Shopping-Cart-TABLE-shopping_cart)
 - [Category Path FUNCTION](#Category-Path-FUNCTION-category_path)
-- [Shopping Cart VIEW](#Shopping-Cart-VIEW-cart_view)
+- [Shopping Cart VIEW](#Shopping-Cart-View-VIEW-cart_view)
 - [Orders TABLE](#Orders-TABLE-orders)
 - [OrderItems TABLE](#OrderItems-TABLE-order_items)
 - [Orders User VIEW](#Orders-User-View-VIEW-orders_user_view)
@@ -129,7 +129,7 @@ Use the following structre to can undertand and maintaned the functionality of t
 - [Orders VIEW](#Orders-View-VIEW-orders_view)
 - [Top Purchased Products VIEW](#Top-Purchased-Products-View-VIEW-top_purchased_products)
 - [Top Pending Products VIEW](#Top-Pending-Products-View-VIEW-top_pending_products)
-- [Users Pending Shopping Cart View VIEW](#Users-Pending-Shopping-Cart-View-View-VIEW-pending_carts)
+- [Users Pending Shopping Cart VIEW](#Users-Pending-Shopping-Cart-View-VIEW-pending_carts)
 
 
 
@@ -201,12 +201,12 @@ Use the following structre to can undertand and maintaned the functionality of t
 - id [SERIAL PRIMARY KEY]
 - user_id [INTEGER] > from [users.id](#Users-TABLE-users) with no refrence effect on delete or change
 - user_info [JSON] > from [Users](#Users-TABLE-users) Data As JSON Format
-- qty_count [INTEGER] > from sum of [cart_view.qty](#Shopping-Cart-VIEW-cart_view)
-- total [NUMERIC(18,3)] > from sum of [cart_view.total](#Shopping-Cart-VIEW-cart_view)
+- qty_count [INTEGER] > from sum of [cart_view.qty](#Shopping-Cart-View-VIEW-cart_view)
+- total [NUMERIC(18,3)] > from sum of [cart_view.total](#Shopping-Cart-View-VIEW-cart_view)
 - confirmed_by [INTEGER] > from admin [users.id](#Users-TABLE-users)
 - confirmed_date [DATE]
 - payment_type [INTEGER] >  COD = 1, VISA = 2
-- note [TEXT] > from [cart_view.note](#Shopping-Cart-VIEW-cart_view)
+- note [TEXT] > from [cart_view.note](#Shopping-Cart-View-VIEW-cart_view)
 - status [INTEGER] > PENDING = 1, CONFIRMED = 2, DELIVERING = 3, COMPLETED = 4, REFUNDING = 5, REFUNDED = 6
 - created [DATE]
 
@@ -216,13 +216,13 @@ Use the following structre to can undertand and maintaned the functionality of t
 > ORDERS ITEMS IS SEPREATED AND SELF CONTAINED TABLE ITS STORE  SHOPPING CART ITEMS FOR ORDER AND IF USERS OR PRODCUTS DELETED OR CHANGED WILL NOT EFFECTS THE ORDERS ITEMS CONTENT STORAGE FOR BETTER OPTIMIZED STATICTICS 
 - id [SERIAL PRIMARY KEY]
 - order_id [INTEGER] > Forgien Key [orders.id](#Orders-TABLE-orders)
-- product_id [INTEGER] > from [cart_view.products_id](#Shopping-Cart-VIEW-cart_view) with no refrence effect on delete or change
+- product_id [INTEGER] > from [cart_view.products_id](#Shopping-Cart-View-VIEW-cart_view) with no refrence effect on delete or change
 - product_info [JSON] > from [Products](#Products-TABLE-products) Data As JSON Format
-- qty [INTEGER] > from [cart_view.qty Item](#Shopping-Cart-VIEW-cart_view)
-- price [NUMERIC(18,3)] > from sum of [cart_view.price](#Shopping-Cart-VIEW-cart_view) Item
-- total [NUMERIC(18,3)] > from sum of [cart_view.total](#Shopping-Cart-VIEW-cart_view) Item
+- qty [INTEGER] > from [cart_view.qty Item](#Shopping-Cart-View-VIEW-cart_view)
+- price [NUMERIC(18,3)] > from sum of [cart_view.price](#Shopping-Cart-View-VIEW-cart_view) Item
+- total [NUMERIC(18,3)] > from sum of [cart_view.total](#Shopping-Cart-View-VIEW-cart_view) Item
 - status [INTEGER] > PENDING = 1, CONFIRMED = 2, DELIVERING = 3, COMPLETED = 4, REFUNDING = 5, REFUNDED = 6
-- note [TEXT] > from [cart_view.note](#Shopping-Cart-VIEW-cart_view)
+- note [TEXT] > from [cart_view.note](#Shopping-Cart-View-VIEW-cart_view)
 
 
 #### Orders User View (VIEW orders_user_view)
@@ -310,5 +310,50 @@ Use the following structre to can undertand and maintaned the functionality of t
 - mobile [VARCHAR] > from [users.mobile](#Users-TABLE-users)
 - role [INTEGER] > from [users.role](#Users-TABLE-users)
 - created [DATE] > from [users.created](#Users-TABLE-users)
-- cart_items [JSON] > from [cart_view](#Shopping-Cart-VIEW-cart_view) rows on [cart_view.user_id](#Shopping-Cart-VIEW-cart_view)
+- cart_items [JSON] > from [cart_view](#Shopping-Cart-View-VIEW-cart_view) rows on [cart_view.user_id](#Shopping-Cart-View-VIEW-cart_view)
 
+## Access API
+> USE HTTP_PORT FROM .ENV THAT YOU PROVIDED BEFORE STARTING THE SERVER
+### Index Users
+
+`GET /api/users`
+```
+- No Parameter or Qquery String Requierd
+
+    http://localhost:{HTTP_PORT}/api/users
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+    "original": "/images/full/encenadaport.jpg",
+    "thumbs": [
+        {
+            "thumbFile": "/images/thumb/encenadaport_1000_1000_fill.jpg",
+            "width": 1000,
+            "height": 1000,
+            "format": "jpeg"
+        },
+        {
+            "thumbFile": "/images/thumb/encenadaport_200_200_fill.gif",
+            "width": 200,
+            "height": 200,
+            "format": "gif"
+        },
+        {
+            "thumbFile": "/images/thumb/encenadaport_200_200_fill.jpg",
+            "width": 200,
+            "height": 200,
+            "format": "jpeg"
+        },
+        {
+            "thumbFile": "/images/thumb/encenadaport_200_200_fill.png",
+            "width": 200,
+            "height": 200,
+            "format": "png"
+        }
+    ]
+    }
+``` 
