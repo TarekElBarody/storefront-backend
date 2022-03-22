@@ -126,9 +126,10 @@ Use the following structre to can undertand and maintaned the functionality of t
 - [User VIEW](#User-View-VIEW-user_view)
 - [Products VIEW](#Products-View-VIEW-product_view)
 - [Process Orders From Shopping Cart FUNCTION](#Process-Orders-From-Shopping-Cart-FUNCTION-create_order)
-- [Products VIEW](#Products-View-VIEW-product_view)
-- [Products VIEW](#Products-View-VIEW-product_view)
-- [Products VIEW](#Products-View-VIEW-product_view)
+- [Orders VIEW](#Orders-View-VIEW-orders_view)
+- [Top Purchased Products VIEW](#Top-Purchased-Products-View-VIEW-top_purchased_products)
+- [Top Pending Products VIEW](#Top-Pending-Products-View-VIEW-top_pending_products)
+- [Users Pending Shopping Cart View VIEW](#Users-Pending-Shopping-Cart-View-View-VIEW-pending_carts)
 
 
 
@@ -269,4 +270,45 @@ Use the following structre to can undertand and maintaned the functionality of t
 > PROCESS CREATION OF NEW ORDER FROM CART THEN RETURN THE CREATED ORDER ID
 - create_order([users.id](#Users-TABLE-users) [INTEGER] , payment_type [INTEGER], note [TEXT]) > ([orders.id](#Orders-TABLE-orders)) [INTEGER]
 
+
+
+
+#### Orders View (VIEW orders_view)
+> RETURN PRODUCTS WITH COMPAINED CULOMN ORDER ITEMS ROW AS JSON
+- id [INTEGER] > from [orders.id](#Orders-TABLE-orders) 
+- user_id [INTEGER] > from [orders.user_id](#Orders-TABLE-orders) 
+- user_info [JSON] > from [orders.user_info](#Orders-TABLE-orders) 
+- qty_count [INTEGER] > from [orders.qty_count](#Orders-TABLE-orders)
+- total [NUMERIC(18,3)] > from [orders.total](#Orders-TABLE-orders)
+- confirmed_by [INTEGER] > from [orders.confirmed_by](#Orders-TABLE-orders)
+- confirmed_date [DATE] > from [orders.confirmed_date](#Orders-TABLE-orders)
+- payment_type [INTEGER] > from [orders.payment_type](#Orders-TABLE-orders)
+- note [TEXT] > from [orders.note](#Orders-TABLE-orders)
+- status [INTEGER] > from [orders.status](#Orders-TABLE-orders)
+- created [DATE] > from [orders.created](#Orders-TABLE-orders)
+- items [JSON] > compained JSON build from [order_items](#OrderItems-TABLE-order_items) rows on [order.id](#Orders-TABLE-orders)
+
+
+#### Top Purchased Products View (VIEW top_purchased_products)
+> RETURN PRODUCTS ID & PRODUCTS COUNT FROM ORDER ITEMS WHERE ORDER ITEMS HAS BEEN COMPLETED FROM ORDER THAT PURSHASED IN 30 DAYS
+- product_id [INTEGER] > from [order_items.product_id](#OrderItems-TABLE-order_items)
+- product_count [INTEGER] > from COUNT([order_items.product_id](#OrderItems-TABLE-order_items))
+
+
+#### Top Pending Products View (VIEW top_pending_products)
+> RETURN PRODUCTS ID & PRODUCTS COUNT FROM ORDER ITEMS WHERE ORDER ITEMS IS STILL PENDING FROM ORDER THAT PURSHASED IN 30 DAYS
+- product_id [INTEGER] > from [order_items.product_id](#OrderItems-TABLE-order_items)
+- product_count [INTEGER] > from COUNT([order_items.product_id](#OrderItems-TABLE-order_items))
+
+#### Users Pending Shopping Cart View (VIEW pending_carts)
+> RETURN USERS WITH COMPAINED SHOPPING CART ROWS THAT WAITING FOR PROCCESSING TO NEW ORDER
+- id [INTEGER] > from [users.id](#Users-TABLE-users)
+- first_name [VARCHAR] > from [users.first_name](#Users-TABLE-users)
+- last_name [VARCHAR] > from [users.last_name](#Users-TABLE-users)
+- birthday [DATE] > from [users.birthday](#Users-TABLE-users)
+- email [VARCHAR] > from [users.email](#Users-TABLE-users)
+- mobile [VARCHAR] > from [users.mobile](#Users-TABLE-users)
+- role [INTEGER] > from [users.role](#Users-TABLE-users)
+- created [DATE] > from [users.created](#Users-TABLE-users)
+- cart_items [JSON] > from [cart_view](#Shopping-Cart-VIEW-cart_view) rows on [cart_view.user_id](#Shopping-Cart-VIEW-cart_view)
 
