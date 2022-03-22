@@ -120,9 +120,17 @@ Use the following structre to can undertand and maintaned the functionality of t
 - [Shopping Cart TABLE](#Shopping-Cart-TABLE-shopping_cart)
 - [Category Path FUNCTION](#Category-Path-FUNCTION-category_path)
 - [Shopping Cart VIEW](#Shopping-Cart-VIEW-cart_view)
-- [Categories TABLE](#Categories-TABLE-categories)
-- [Categories TABLE](#Categories-TABLE-categories)
-- [Categories TABLE](#Categories-TABLE-categories)
+- [Orders TABLE](#Orders-TABLE-orders)
+- [OrderItems TABLE](#OrderItems-TABLE-order_items)
+- [Orders User VIEW](#Orders-User-View-VIEW-orders_user_view)
+- [User VIEW](#User-View-VIEW-user_view)
+- [Products VIEW](#Products-View-VIEW-product_view)
+- [Process Orders From Shopping Cart FUNCTION](#Process-Orders-From-Shopping-Cart-FUNCTION-create_order)
+- [Products VIEW](#Products-View-VIEW-product_view)
+- [Products VIEW](#Products-View-VIEW-product_view)
+- [Products VIEW](#Products-View-VIEW-product_view)
+
+
 
 
 #### Users (TABLE users)
@@ -148,7 +156,7 @@ Use the following structre to can undertand and maintaned the functionality of t
 - id [SERIAL PRIMARY KEY]
 - name [VARCHAR(255)]
 - description [TEXT] 
-- category_id [INTEGER] > Forgien Key [categories.id](#Categories-(TABLE-categories))
+- category_id [INTEGER] > Forgien Key [categories.id](#Categories-TABLE-categories)
 - price [NUMERIC(18,3)]
 - stock [INTEGER]
 - details [JSON] > Example {items: [{name: "name1", value: "value1"}, {name: "name2", value: "value2"}]}
@@ -159,15 +167,15 @@ Use the following structre to can undertand and maintaned the functionality of t
 #### Shopping Cart (TABLE shopping_cart)
 > MANY TO MANY (users <-> products)
 - id [SERIAL PRIMARY KEY]
-- user_id [INTEGER] > Forgien Key [users.id](#Users-(TABLE-users))
-- product_id [INTEGER] > Forgien Key [products.id](#Products-(TABLE-products))
+- user_id [INTEGER] > Forgien Key [users.id](#Users-TABLE-users)
+- product_id [INTEGER] > Forgien Key [products.id](#Products-TABLE-products)
 - qty [INTEGER]
 - note [TEXT]
 - created [DATE]
 
 #### Category Path (FUNCTION category_path)
 > RETURN THE CATEGORY PATH OF PRODUCTS LIKE (Computers >> Laptops)
-- category_path([category_id](#Categories-(TABLE-categories))) > (category) [TEXT]
+- category_path([category_id](#Categories-TABLE-categories)) > (category) [TEXT]
 
 
 #### Shopping Cart View (VIEW cart_view)
@@ -190,14 +198,14 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 > ORDERS IS SEPREATED AND SELF CONTAINED TABLE ITS PROCCESS SHOPPING CART TO FINALY BECOME A COMPLETED ORDER AND IF USERS OR PRODCUTS DELETED OR CHANGED WILL NOT EFFECTS THE ORDERS CONTENT STORAGE FOR BETTER OPTIMIZED STATICTICS 
 - id [SERIAL PRIMARY KEY]
-- user_id [INTEGER] > from users.id with no refrence effect on delete or change
-- user_info [JSON] > from Users Data As JSON Format
-- qty_count [INTEGER] > from sum of cart_view.qty
-- total [NUMERIC(18,3)] > from sum of cart_view.total
-- confirmed_by [INTEGER] > from admin users.id
+- user_id [INTEGER] > from [users.id](#Users-TABLE-users) with no refrence effect on delete or change
+- user_info [JSON] > from [Users](#Users-TABLE-users) Data As JSON Format
+- qty_count [INTEGER] > from sum of [cart_view.qty](#Shopping-Cart-VIEW-cart_view)
+- total [NUMERIC(18,3)] > from sum of [cart_view.total](#Shopping-Cart-VIEW-cart_view)
+- confirmed_by [INTEGER] > from admin [users.id](#Users-TABLE-users)
 - confirmed_date [DATE]
 - payment_type [INTEGER] >  COD = 1, VISA = 2
-- note [TEXT] > from cart_view.note
+- note [TEXT] > from [cart_view.note](#Shopping-Cart-VIEW-cart_view)
 - status [INTEGER] > PENDING = 1, CONFIRMED = 2, DELIVERING = 3, COMPLETED = 4, REFUNDING = 5, REFUNDED = 6
 - created [DATE]
 
@@ -206,59 +214,59 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 > ORDERS ITEMS IS SEPREATED AND SELF CONTAINED TABLE ITS STORE  SHOPPING CART ITEMS FOR ORDER AND IF USERS OR PRODCUTS DELETED OR CHANGED WILL NOT EFFECTS THE ORDERS ITEMS CONTENT STORAGE FOR BETTER OPTIMIZED STATICTICS 
 - id [SERIAL PRIMARY KEY]
-- order_id [INTEGER] > Forgien Key orders.id
-- product_id [INTEGER] > from cart_view.products_id with no refrence effect on delete or change
-- product_info [JSON] > from Products Data As JSON Format
-- qty [INTEGER] > from cart_view.qty Item
-- price [NUMERIC(18,3)] > from sum of cart_view.price Item
-- total [NUMERIC(18,3)] > from sum of cart_view.total Item
+- order_id [INTEGER] > Forgien Key [orders.id](#Orders-TABLE-orders)
+- product_id [INTEGER] > from [cart_view.products_id](#Shopping-Cart-VIEW-cart_view) with no refrence effect on delete or change
+- product_info [JSON] > from [Products](#Products-TABLE-products) Data As JSON Format
+- qty [INTEGER] > from [cart_view.qty Item](#Shopping-Cart-VIEW-cart_view)
+- price [NUMERIC(18,3)] > from sum of [cart_view.price](#Shopping-Cart-VIEW-cart_view) Item
+- total [NUMERIC(18,3)] > from sum of [cart_view.total](#Shopping-Cart-VIEW-cart_view) Item
 - status [INTEGER] > PENDING = 1, CONFIRMED = 2, DELIVERING = 3, COMPLETED = 4, REFUNDING = 5, REFUNDED = 6
-- note [TEXT] > from cart_view.note
+- note [TEXT] > from [cart_view.note](#Shopping-Cart-VIEW-cart_view)
 
 
 #### Orders User View (VIEW orders_user_view)
 > RETUREN ORDERS ROWS COMPAINED WITH A COLUMN WITH IMPORTED ORDER ITEMS AS JSON FORMAT
-- id [INTEGER] > from orders.id
-- user_id [INTEGER] > from orders.user_id
-- qty_count [INTEGER] > from orders.qty_count
-- total [NUMERIC(18,3)] > from orders.total
-- confirmed_by [INTEGER] > from orders.confirmed_by
-- confirmed_date [DATE] > from orders.confirmed_date
-- payment_type [INTEGER] >  from orders.payment_type
-- note [TEXT] > from orders.note
-- status [INTEGER] > from orders.status
-- created [DATE] > from orders.created
-- items [JSON] > compained JSON build from order_items rows on order.id
+- id [INTEGER] > from [orders.id](#Orders-TABLE-orders)
+- user_id [INTEGER] > from [orders.user_id](#Orders-TABLE-orders)
+- qty_count [INTEGER] > from [orders.qty_count](#Orders-TABLE-orders)
+- total [NUMERIC(18,3)] > from [orders.total](#Orders-TABLE-orders)
+- confirmed_by [INTEGER] > from [orders.confirmed_by](#Orders-TABLE-orders)
+- confirmed_date [DATE] > from [orders.confirmed_date](#Orders-TABLE-orders)
+- payment_type [INTEGER] >  from [orders.payment_type](#Orders-TABLE-orders)
+- note [TEXT] > from [orders.note](#Orders-TABLE-orders)
+- status [INTEGER] > from [orders.status](#Orders-TABLE-orders)
+- created [DATE] > from [orders.created](#Orders-TABLE-orders)
+- items [JSON] > compained JSON build from [order_items](#OrderItems-TABLE-order_items) rows on order.id
 
 
 #### User View (VIEW user_view)
 > RETUREN USERS ROWS COMPAINED WITH 4 COMPAINED COLUMNS
-- id [INTEGER] > from users.id
-- first_name [VARCHAR] > from users.first_name
-- last_name [VARCHAR] > from users.last_name
-- birthday [DATE] > from users.birthday
-- email [VARCHAR] > from users.email
-- mobile [VARCHAR] > from users.mobile
-- role [INTEGER] > from users.role
-- created [DATE] > from users.created
-- order_count [INTEGER] > from count(user_id) in orders on order.user_id
-- order_sum [NUMERIC(18,3)] > from sum(total) in orders on order.user_id
-- most_products [JSON] > compained JSON build from order_items.product_info in orders on order.user_id
-- last_orders [JSON] > compained JSON build from order rows on order.user_id
+- id [INTEGER] > from [users.id](#Users-TABLE-users)
+- first_name [VARCHAR] > from [users.first_name](#Users-TABLE-users)
+- last_name [VARCHAR] > from [users.last_name](#Users-TABLE-users)
+- birthday [DATE] > from [users.birthday](#Users-TABLE-users)
+- email [VARCHAR] > from [users.email](#Users-TABLE-users)
+- mobile [VARCHAR] > from [users.mobile](#Users-TABLE-users)
+- role [INTEGER] > from [users.role](#Users-TABLE-users)
+- created [DATE] > from [users.created](#Users-TABLE-users)
+- order_count [INTEGER] > from [count(user_id)](#Orders-TABLE-orders) in [orders](#Orders-TABLE-orders) on [order.user_id](#Orders-TABLE-orders)
+- order_sum [NUMERIC(18,3)] > from [sum(total)](#Orders-TABLE-orders) in [orders](#Orders-TABLE-orders) on [order.user_id](#Orders-TABLE-orders)
+- most_products [JSON] > compained JSON build from [order_items.product_info](#OrderItems-TABLE-order_items) from [orders](#Orders-TABLE-orders) on [order.user_id](#Orders-TABLE-orders)
+- last_orders [JSON] > compained JSON build from [order](#Orders-TABLE-orders) rows on [order.user_id](#Orders-TABLE-orders)
 
 
 #### Products View (VIEW product_view)
 > RETURN PRODUCTS WITH COMPAINED CULOMN CATEGORY PATH
-- id [INTEGER] > from products.id
-- name [VARCHAR] > from products.name
-- description [TEXT] > from products.description
-- category [TEXT] > from function category_path(products.category_id)
-- price [NUMERIC(18,3)] > from products.price
-- details [JSON] > from products.details
-- image [VARCHAR] > from products.image
+- id [INTEGER] > from [products.id](#Products-TABLE-products)
+- name [VARCHAR] > from [products.name](#Products-TABLE-products)
+- description [TEXT] > from [products.description](#Products-TABLE-products)
+- category [TEXT] > from function [category_path](#Category-Path-FUNCTION-category_path)([products.category_id](#Products-TABLE-products))
+- price [NUMERIC(18,3)] > from [products.price](#Products-TABLE-products)
+- details [JSON] > from [products.details](#Products-TABLE-products)
+- image [VARCHAR] > from [products.image](#Products-TABLE-products)
 
-#### Process Orders From Shoppinf Cart (FUNCTION create_order)
+#### Process Orders From Shopping Cart (FUNCTION create_order)
 > PROCESS CREATION OF NEW ORDER FROM CART THEN RETURN THE CREATED ORDER ID
-- create_order(users.id [INTEGER] , payment_type [INTEGER], note [TEXT]) > (orders.id) [INTEGER]
+- create_order([users.id](#Users-TABLE-users) [INTEGER] , payment_type [INTEGER], note [TEXT]) > ([orders.id](#Orders-TABLE-orders)) [INTEGER]
 
 
