@@ -36,7 +36,7 @@ This is a starter API application for building Store Backend routes to manage an
 	 - [build the project](#Build-the-project)
 	 - [Build and Serve the project](#Build-and-Serve-the-project)
 	 - [Run jasmine test](#Run-jasmine-test)
-- [API Routes & Database Schema](https://github.com/TarekElBarody/storefront-backend/blob/main/REQUIREMENTS.md)
+- [API Endpoints & Database Schema](https://github.com/TarekElBarody/storefront-backend/blob/main/REQUIREMENTS.md)
 
 
 
@@ -75,9 +75,9 @@ cd  storefront-backend
 npm install
 ```
 - Change .env.example to .env and fill necessary data
-  * ENV                 ># dev or test or production
-  * HTTP_PORT           ># http port like 8080 or 3000
-  * HTTPS_PORT          ># https port like 8443 or 4000
+  * ENV                 # dev or test or production
+  * HTTP_PORT           # http port like 8080 or 3000
+  * HTTPS_PORT          # https port like 8443 or 4000
   * POSTGRES_HOST       # postgreSQL database hostname for local use localhost
   * POSTGRES_DB         # dev database name "store_db"
   * POSTGRES_DB_TEST    # test database name "store_db_test"
@@ -403,4 +403,4 @@ HTTPS server on port 8443 at https://localhost:8443/api
 
 ```
 
-* [API Routes & Database Schema](https://github.com/TarekElBarody/storefront-backend/blob/main/REQUIREMENTS.md)
+* [API Endpoints & Database Schema](https://github.com/TarekElBarody/storefront-backend/blob/main/REQUIREMENTS.md)

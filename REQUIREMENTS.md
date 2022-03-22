@@ -35,19 +35,25 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 #### Users
 > CHANGE :id WITH USER ID NUMBER
+
+> [Users Access API](#Users-Access-API)
+
 - Index  🔴    -  GET [/api/users](#Index-Users)     
 - Show  🟢    -  GET [/api/users/:id](#Show-Users)     
 - Create  ⚪    -  POST [/api/users/add](#Add-Users)
 - Update 🟢    -  PUT [/api/users/:id](#Update-Users)
 - Delete 🔴   -  DELETE [/api/users/:id](#Delete-Users)
-- Reset  🟢    -   PUT [/api/users/:id/reset](#Reset-Users)
-- Login  ⚪  -   POST [/api/users/auth](#Login-Users)
+- Reset  🟢    -   PUT [/api/users/:id/reset](#Reset-Users-Password)
+- Login  ⚪  -   POST [/api/users/auth](#Users-Login)
 
 #### Categories
 > CHANGE :id WITH Category ID NUMBER
+
+> [Categories Access API](#Categories-Access-API)
+
+- Create  🔴    -  POST [/api/categories/add](#Create-Categories)
 - Index  ⚪    -  GET [/api/categories](#Index-Categories)     
 - Show  ⚪    -  GET [/api/categories/:id](#Show-Categories)     
-- Create  🔴    -  POST [/api/categories/add](#Add-Categories)
 - Update 🔴    -  PUT [/api/categories/:id](#Update-Categories)
 - Delete 🔴   -  DELETE [/api/categories/:id](#Delete-Categories)
 
@@ -313,12 +319,24 @@ Use the following structre to can undertand and maintaned the functionality of t
 - cart_items [JSON] > from [cart_view](#Shopping-Cart-View-VIEW-cart_view) rows on [cart_view.user_id](#Shopping-Cart-View-VIEW-cart_view)
 
 ## Access API
-> USE HTTP_PORT FROM .ENV THAT YOU PROVIDED BEFORE STARTING THE SERVER
-### Index Users
+> 🔴 Means Reqiuerd Admin Token 
 
-`GET /api/users`
+> 🟢 Means Reqiuerd User Or Admin Token 
+
+> ⚪ Means No Token Reqiuerd   
+
+> ADMINS ALLWAYS CAN HAVE USERS ROLE
+
+> USE HTTP_PORT FROM .ENV THAT YOU PROVIDED BEFORE STARTING THE SERVER
+
+### Users Access API
+
+#### Index Users 
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`GET /api/users` 🔴
 ```
-- No Parameter or Qquery String Requierd
+Authorization: Bearer {TOKEN}
 
     http://localhost:{HTTP_PORT}/api/users
 
@@ -327,33 +345,423 @@ RESPONSE >>
     HTTP/1.1 200 OK
     Content-Type: application/json
 
-    {
-    "original": "/images/full/encenadaport.jpg",
-    "thumbs": [
+    [
         {
-            "thumbFile": "/images/thumb/encenadaport_1000_1000_fill.jpg",
-            "width": 1000,
-            "height": 1000,
-            "format": "jpeg"
-        },
-        {
-            "thumbFile": "/images/thumb/encenadaport_200_200_fill.gif",
-            "width": 200,
-            "height": 200,
-            "format": "gif"
-        },
-        {
-            "thumbFile": "/images/thumb/encenadaport_200_200_fill.jpg",
-            "width": 200,
-            "height": 200,
-            "format": "jpeg"
-        },
-        {
-            "thumbFile": "/images/thumb/encenadaport_200_200_fill.png",
-            "width": 200,
-            "height": 200,
-            "format": "png"
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-30T22:00:00.000Z",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "role": 1,
+            "created": "2022-03-22T02:03:50.662Z",
+            "order_count": 0,
+            "order_sum": 0,
+            "most_products": [],
+            "last_orders": []
         }
     ]
+``` 
+
+#### Show Users 
+> GENERATE USER OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH USER ID NUMBER
+
+`GET /api/users/:id` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-30T22:00:00.000Z",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "role": 1,
+            "created": "2022-03-22T02:03:50.662Z",
+            "order_count": 0,
+            "order_sum": 0,
+            "most_products": [],
+            "last_orders": []
+        }
+    ]
+``` 
+
+#### Add Users 
+> NO TOKEN IS REQUIERD
+
+> IF ADMIN TOKEN PROVIDED YOU CAN CREATE ADMIN ROLE OR MORDERATORS
+
+`POST /api/users/add` ⚪
+```
+    http://localhost:{HTTP_PORT}/api/users/add
+
+DATA SEND {
+            "email": "user@user.com",
+            "password": "123456789",
+            "first_name": "User",
+            "last_name": "User",
+            "birthday": "1990-01-01",
+            "mobile": "02222222222",
+            "role": "3" // ONLY AVALIABLE FOR ADMIN TOKENS
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "first_name": "User",
+        "last_name": "User",
+        "birthday": "1990-03-31T22:00:00.000Z",
+        "email": "user@user.com",
+        "mobile": "02222222222",
+        "role": 3,
+        "created": "2022-03-22T18:31:47.119Z"
     }
+``` 
+
+#### Update Users 
+> GENERATE USER OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH USER ID NUMBER
+
+`PUT /api/users/:id` 🟢
+```
+    http://localhost:{HTTP_PORT}/api/users/2
+
+DATA SEND {
+            "email": "user2@user2.com",
+            "first_name": "User2",
+            "last_name": "User2",
+            "birthday": "1980-01-01",
+            "mobile": "01222222222",
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "first_name": "User2",
+        "last_name": "User2",
+        "birthday": "1979-12-31T22:00:00.000Z",
+        "email": "user2@user2.com",
+        "mobile": "01222222222",
+        "role": 3,
+        "created": "2022-03-22T18:31:47.119Z"
+    }
+``` 
+
+#### Delete Users 
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH USER ID NUMBER
+
+`DELETE /api/users/:id` 🔴
+```
+    http://localhost:{HTTP_PORT}/api/users/2
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "first_name": "User2",
+        "last_name": "User2",
+        "birthday": "1979-12-31T22:00:00.000Z",
+        "email": "user2@user2.com",
+        "mobile": "01222222222",
+        "role": 3,
+        "created": "2022-03-22T18:31:47.119Z"
+    }
+
+
+``` 
+
+##### Reset Users Password
+> GENERATE ONLY USER TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH USER ID NUMBER
+
+`PUT /api/users/:id/reset` 🟢
+```
+    http://localhost:{HTTP_PORT}/api/users/1/reset
+
+DATA SEND {
+            "currentPassword": "123456789",
+            "newPassword": "987654321",
+            "confirmNew": "987654321"
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 1,
+        "first_name": "Admin",
+        "last_name": "Admin",
+        "birthday": "1990-03-30T22:00:00.000Z",
+        "email": "admin@admin.com",
+        "mobile": "01111111111",
+        "role": 1,
+        "created": "2022-03-22T02:03:50.662Z"
+    }
+``` 
+
+#### Users Login 
+> NO TOKEN IS REQUIERD
+
+`POST /api/users/auth` ⚪
+```
+    http://localhost:{HTTP_PORT}/api/users/auth
+
+DATA POST {
+            "email": "admin@admin.com",
+            "password": "123456789"
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "success": true,
+        "err": {},
+        "data": {
+            "exp": 1647968643.42,
+            "data": {
+                "id": 1,
+                "first_name": "Admin",
+                "last_name": "Admin",
+                "role": 1
+            }
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDc5Njg2NDMuNDIsImRhdGEiOnsiaWQiOjEsImZpcnN0X25hbWUiOiJBZG1pbiIsImxhc3RfbmFtZSI6IkFkbWluIiwicm9sZSI6MX0sImlhdCI6MTY0Nzk2NTA0M30.Cdv5PPb_47-Qb7K5FOHS58JK-E6BDlYxmDuMFt1G8go"
+    }
+``` 
+
+
+#### Index Users 
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`GET /api/users` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-30T22:00:00.000Z",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "role": 1,
+            "created": "2022-03-22T02:03:50.662Z",
+            "order_count": 0,
+            "order_sum": 0,
+            "most_products": [],
+            "last_orders": []
+        }
+    ]
+``` 
+
+
+### Categories Access API
+
+#### Create Categories 
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`POST /api/users/add` 🔴
+```
+    http://localhost:{HTTP_PORT}/api/categories/add
+
+DATA SEND {
+            "email": "user@user.com",
+            "password": "123456789",
+            "first_name": "User",
+            "last_name": "User",
+            "birthday": "1990-01-01",
+            "mobile": "02222222222",
+            "role": "3" // ONLY AVALIABLE FOR ADMIN TOKENS
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "first_name": "User",
+        "last_name": "User",
+        "birthday": "1990-03-31T22:00:00.000Z",
+        "email": "user@user.com",
+        "mobile": "02222222222",
+        "role": 3,
+        "created": "2022-03-22T18:31:47.119Z"
+    }
+``` 
+
+
+#### Index Categories 
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`GET /api/users` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-30T22:00:00.000Z",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "role": 1,
+            "created": "2022-03-22T02:03:50.662Z",
+            "order_count": 0,
+            "order_sum": 0,
+            "most_products": [],
+            "last_orders": []
+        }
+    ]
+``` 
+
+#### Show Categories 
+> GENERATE USER OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH USER ID NUMBER
+
+`GET /api/users/:id` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-30T22:00:00.000Z",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "role": 1,
+            "created": "2022-03-22T02:03:50.662Z",
+            "order_count": 0,
+            "order_sum": 0,
+            "most_products": [],
+            "last_orders": []
+        }
+    ]
+``` 
+
+
+#### Update Categories 
+> GENERATE USER OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH USER ID NUMBER
+
+`PUT /api/users/:id` 🟢
+```
+    http://localhost:{HTTP_PORT}/api/users/2
+
+DATA SEND {
+            "email": "user2@user2.com",
+            "first_name": "User2",
+            "last_name": "User2",
+            "birthday": "1980-01-01",
+            "mobile": "01222222222",
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "first_name": "User2",
+        "last_name": "User2",
+        "birthday": "1979-12-31T22:00:00.000Z",
+        "email": "user2@user2.com",
+        "mobile": "01222222222",
+        "role": 3,
+        "created": "2022-03-22T18:31:47.119Z"
+    }
+``` 
+
+#### Delete Categories 
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH USER ID NUMBER
+
+`DELETE /api/users/:id` 🔴
+```
+    http://localhost:{HTTP_PORT}/api/users/2
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "first_name": "User2",
+        "last_name": "User2",
+        "birthday": "1979-12-31T22:00:00.000Z",
+        "email": "user2@user2.com",
+        "mobile": "01222222222",
+        "role": 3,
+        "created": "2022-03-22T18:31:47.119Z"
+    }
+
+
 ``` 
