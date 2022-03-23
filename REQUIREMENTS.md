@@ -13,7 +13,7 @@ Use the following structre to can undertand and maintaned the functionality of t
 ```
 
 - [API Endpoints](#API-Endpoints)
-- [Database Shcema](#Database-Shcema)
+- [Database Schema](#Database-Schema)
 - [Access API](#Access-API)
 
 ## API Endpoints
@@ -139,7 +139,7 @@ Use the following structre to can undertand and maintaned the functionality of t
 - Top User Buyers  🔴    -  GET [/api/dashboard/top_buyer](#Dashboard-Top-User-Buyers)   
 
 
-## Database Shcema
+## Database Schema
 
 - [Users TABLE](#Users-TABLE-users)
 - [Categories TABLE](#Categories-TABLE-categories)
