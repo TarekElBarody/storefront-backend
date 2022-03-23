@@ -73,7 +73,7 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 > [Shopping Cart Access API](#Shopping-Cart-Access-API)
 
-- Create  🟢    -  POST [/api/users/:id/cart/add](#Create-Shopping-Cart-Item)
+- Create  🟢    -  POST [/api/users/:id/cart/add](#Add-Shopping-Cart-Item)
 - Index  🟢    -  GET [/api/users/:id/cart](#Index-Shopping-Cart-Items)     
 - Show  🟢    -  GET [/api/users/:id/cart/:cid](#Show-Shopping-Cart-Item)     
 - Update 🟢    -  PUT [/api/users/:id/cart/:cid](#Update-Shopping-Cart-Item)
@@ -82,6 +82,18 @@ Use the following structre to can undertand and maintaned the functionality of t
 
 
 #### Orders
+
+> [Orders Access API](#Orders-Access-API)
+
+
+> FOR USERS
+
+> CHANGE :id WITH User ID NUMBER & :oid with Order ID NUMBER
+- Process 🟢    -  POST [/api//users/:id/order/process](#User-Process-Order)
+- Index 🟢   -  GET [/api/users/:id/orders](#User-Index-Orders)
+- Show 🟢   -  GET [/api/users/:id/orders/:oid](#User-Show-Orders)
+
+
 > FOR ADMINS
 
 > CHANGE :id WITH Order ID NUMBER
@@ -91,12 +103,7 @@ Use the following structre to can undertand and maintaned the functionality of t
 - Update 🔴    -  PUT [/api/orders/:id](#Update-Orders)
 - Delete 🔴   -  DELETE [/api/orders/:id](#Delete-Orders)
 
-> FOR USERS
 
-> CHANGE :id WITH User ID NUMBER & :oid with Order ID NUMBER
-- Process 🟢    -  POST [/api/orders/process](#User-Process-Orders)
-- Index 🟢   -  GET [/api/users/:id/orders](#User-Index-Orders)
-- Show 🟢   -  GET [/api/users/:id/orders/:oid](#User-Show-Orders)
 
 #### OrderItems
 > FOR ADMIN
@@ -834,6 +841,49 @@ RESPONSE >>
         "created": "2022-03-22T20:40:35.837Z"
     }
 
+    http://localhost:{HTTP_PORT}/api/products/add
+
+DATA SEND {
+            "name": "AAAA Alkaline Batteries",
+            "description": "AA Alkaline Batteries",
+            "category_id": "1",
+            "price": "21.00",
+            "stock": "1000",
+            "details": "{\"items\":[{\"name\":\"Brand\",\"value\":\"Zero\"},{\"name\":\"AMP\",\"value\":\"1900\"}]}",
+            "image": "assets/images/products/03.jpg",
+            "status": "1"
+        }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 3,
+        "name": "AAAA Alkaline Batteries",
+        "description": "AAAA Alkaline Batteries",
+        "category_id": 1,
+        "price": 21,
+        "stock": 1000,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "1900"
+                }
+            ]
+        },
+        "image": "assets/images/products/03.jpg",
+        "status": 1,
+        "created": "2022-03-22T20:40:35.837Z"
+    }
+
     
 ``` 
 
@@ -894,6 +944,29 @@ RESPONSE >>
                 ]
             },
             "image": "assets/images/products/02.jpg",
+            "status": 1,
+            "created": "2022-03-22T20:40:35.837Z"
+        },
+        {
+            "id": 3,
+            "name": "AAAA Alkaline Batteries",
+            "description": "AAAA Alkaline Batteries",
+            "category_id": 1,
+            "price": 21,
+            "stock": 1000,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "AMP",
+                        "value": "1900"
+                    }
+                ]
+            },
+            "image": "assets/images/products/03.jpg",
             "status": 1,
             "created": "2022-03-22T20:40:35.837Z"
         }
@@ -994,7 +1067,7 @@ RESPONSE >>
 
 `DELETE /api/products/:id` 🔴
 ```
-    http://localhost:{HTTP_PORT}/api/products/2
+    http://localhost:{HTTP_PORT}/api/products/3
 
 RESPONSE >>
 
@@ -1002,12 +1075,12 @@ RESPONSE >>
     Content-Type: application/json
 
     {
-        "id": 2,
-        "name": "AA Alkaline Batteries 1.5 V",
-        "description": "AA Alkaline Batteries 1.5 V",
+        "id": 3,
+        "name": "AAAA Alkaline Batteries",
+        "description": "AAAA Alkaline Batteries",
         "category_id": 1,
-        "price": 32.00,
-        "stock": 2000,
+        "price": 21,
+        "stock": 1000,
         "details": {
             "items": [
                 {
@@ -1016,23 +1089,25 @@ RESPONSE >>
                 },
                 {
                     "name": "AMP",
-                    "value": "2300"
+                    "value": "1900"
                 }
             ]
         },
-        "image": "assets/images/products/02.jpg",
+        "image": "assets/images/products/03.jpg",
         "status": 1,
-        "created": "2022-03-22T20:39:14.431Z"
+        "created": "2022-03-22T20:40:35.837Z"
     }
 ``` 
 
 
 ### Shopping Cart Access API
 
-#### Create Shopping Cart Item
+#### Add Shopping Cart Item
 > GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-`POST /api/users/:id/:cid/add` 🟢
+> CHANGE :id WITH User ID NUMBER
+
+`POST /api/users/:id/cart/add` 🟢
 ```
 Authorization: Bearer {TOKEN}
 
@@ -1076,6 +1151,46 @@ RESPONSE >>
         "note": "test note"
     }
 
+    http://localhost:{HTTP_PORT}/api/users/1/cart/add
+
+DATA SEND {
+            "product_id": "2",
+            "qty": "10",
+            "note": "test note"
+         }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "user_id": 1,
+        "product_id": 2,
+        "qty": 10,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category": "Computers",
+        "price": 32,
+        "total": 320,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "note": "test note"
+    }
+
    
 ``` 
 
@@ -1083,8 +1198,12 @@ RESPONSE >>
 #### Index Shopping Cart Items
 > GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
+> CHANGE :id WITH User ID NUMBER
+
 `GET /api/users/:id/cart` 🟢
 ```
+Authorization: Bearer {TOKEN}
+
     http://localhost:{HTTP_PORT}/api/users/1/cart
 
 RESPONSE >>
@@ -1117,18 +1236,47 @@ RESPONSE >>
             },
             "image": "assets/images/products/01.jpg",
             "note": "test note"
-        }
+        },
+        {
+        "id": 2,
+        "user_id": 1,
+        "product_id": 2,
+        "qty": 10,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category": "Computers",
+        "price": 32,
+        "total": 320,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "note": "test note"
+    }
 
     ]
 ``` 
 
-#### Show Shopping Cart Items
-> NO TOKEN IS REQUIERD
+#### Show Shopping Cart Item
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-> CHANGE :id WITH Product ID NUMBER
+> CHANGE :id WITH User ID NUMBER
+
+> CHANGE :cid WITH Cart Item ID NUMBER
 
 `GET /api/users/:id/cart/:cid` 🟢
 ```
+Authorization: Bearer {TOKEN}
+
     http://localhost:{HTTP_PORT}/api/users/1/cart/1
 
 RESPONSE >>
@@ -1137,12 +1285,68 @@ RESPONSE >>
     Content-Type: application/json
 
     {
+            "id": 1,
+            "user_id": 1,
+            "product_id": 1,
+            "qty": 2,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category": "Computers",
+            "price": 2200,
+            "total": 4400,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "Power",
+                        "value": "10000 AMP"
+                    }
+                ]
+            },
+            "image": "assets/images/products/01.jpg",
+            "note": "test note"
+        }
+``` 
+
+
+#### Update Shopping Cart Item
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH User ID NUMBER
+
+> CHANGE :cid WITH Cart Item ID NUMBER
+
+
+`PUT /api/users/:id/cart/:cid` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/cart/1
+
+DATA SEND {
+            "qty": 3,
+            "note": "test update"
+          }
+
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
         "id": 1,
+        "user_id": 1,
+        "product_id": 1,
+        "qty": 3,
         "name": "Zero Power Bank 10000 AMP",
         "description": "Zero Power Bank 10000 AMP",
-        "category_id": 1,
+        "category": "Computers",
         "price": 2200,
-        "stock": 51,
+        "total": 6600,
         "details": {
             "items": [
                 {
@@ -1156,24 +1360,319 @@ RESPONSE >>
             ]
         },
         "image": "assets/images/products/01.jpg",
-        "status": 1,
-        "created": "2022-03-22T20:25:14.825Z"
+        "note": "test update"
     }
 ``` 
 
+#### Delete Shopping Cart Item
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-#### Update Shopping Cart Items
-> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+> CHANGE :id WITH User ID NUMBER
 
-> CHANGE :id WITH Product ID NUMBER
+> CHANGE :cid WITH Cart Item ID NUMBER
 
-`PUT /api/users/:id/:cid/:id` 🔴
+`DELETE /api/users/:id/cart/:cid` 🟢
 ```
-    http://localhost:{HTTP_PORT}/api/users/:id/:cid/2
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/cart/2
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "user_id": 1,
+        "product_id": 2,
+        "qty": 10,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category": "Computers",
+        "price": 32,
+        "total": 320,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "note": "test note"
+    }
+``` 
+
+#### Empty Shopping Cart Items
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH User ID NUMBER
+
+
+`DELETE /api/users/:id/cart` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/cart
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "bool": true
+    }
+``` 
+
+### Orders Access API
+
+#### User Process Order
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH User ID NUMBER
+
+> CREATE SHOPPING CART ITEMS 1ST FROM [HERE](#Add-Shopping-Cart-Item)
+
+`POST /api/users/:id/order/process` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/order/process
 
 DATA SEND {
-            "price": "32.00",
-            "stock": "2000"
+            "payment_type": "1",
+            "note": "first order"
+         }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 1,
+        "user_id": 1,
+        "qty_count": 12,
+        "total": 4720,
+        "confirmed_by": 0,
+        "confirmed_date": null,
+        "payment_type": 1,
+        "note": "first order",
+        "status": 1,
+        "items": [
+            [
+                {
+                    "id": 1,
+                    "order_id": 1,
+                    "product_id": 1,
+                    "product_info": {
+                        "id": 1,
+                        "name": "Zero Power Bank 10000 AMP",
+                        "description": "Zero Power Bank 10000 AMP",
+                        "category": "Computers",
+                        "price": 2200,
+                        "details": {
+                            "items": [
+                                        {
+                                            "name": "Brand",
+                                            "value": "Zero"
+                                        },
+                                        {
+                                            "name": "Power",
+                                            "value": "10000 AMP"
+                                        }
+                                    ]
+                        },
+                        "image": "assets/images/products/01.jpg"
+                    },
+                    "qty": 2,
+                    "price": 2200,
+                    "total": 4400,
+                    "note": "test note",
+                    "status": 1
+                }
+            ],
+            [
+                {
+                    "id": 2,
+                    "order_id": 1,
+                    "product_id": 2,
+                    "product_info": {
+                        "id": 2,
+                        "name": "AA Alkaline Batteries 1.5 V",
+                        "description": "AA Alkaline Batteries 1.5 V",
+                        "category": "Computers",
+                        "price": 32,
+                        "details": {
+                            "items": [
+                                        {
+                                            "name": "Brand",
+                                            "value": "Zero"
+                                        },
+                                        {
+                                            "name": "AMP",
+                                            "value": "2300"
+                                        }
+                                    ]
+                        },
+                        "image": "assets/images/products/02.jpg"
+                    },
+                    "qty": 10,
+                    "price": 32,
+                    "total": 320,
+                    "note": "test note",
+                    "status": 1
+                }
+            ]
+        ]
+    }
+
+   
+``` 
+
+
+#### Index Orders Items
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH User ID NUMBER
+
+`GET /api/users/:id/order` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/order
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "user_id": 1,
+            "product_id": 1,
+            "qty": 2,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category": "Computers",
+            "price": 2200,
+            "total": 4400,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "Power",
+                        "value": "10000 AMP"
+                    }
+                ]
+            },
+            "image": "assets/images/products/01.jpg",
+            "note": "test note"
+        },
+        {
+        "id": 2,
+        "user_id": 1,
+        "product_id": 2,
+        "qty": 10,
+        "name": "AA Alkaline Batteries 1.5 V",
+        "description": "AA Alkaline Batteries 1.5 V",
+        "category": "Computers",
+        "price": 32,
+        "total": 320,
+        "details": {
+            "items": [
+                {
+                    "name": "Brand",
+                    "value": "Zero"
+                },
+                {
+                    "name": "AMP",
+                    "value": "2300"
+                }
+            ]
+        },
+        "image": "assets/images/products/02.jpg",
+        "note": "test note"
+    }
+
+    ]
+``` 
+
+#### Show Orders Item
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH User ID NUMBER
+
+> CHANGE :cid WITH Cart Item ID NUMBER
+
+`GET /api/users/:id/order/:cid` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/order/1
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+            "id": 1,
+            "user_id": 1,
+            "product_id": 1,
+            "qty": 2,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category": "Computers",
+            "price": 2200,
+            "total": 4400,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "Power",
+                        "value": "10000 AMP"
+                    }
+                ]
+            },
+            "image": "assets/images/products/01.jpg",
+            "note": "test note"
+        }
+``` 
+
+
+#### Update Orders Item
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH User ID NUMBER
+
+> CHANGE :cid WITH Cart Item ID NUMBER
+
+
+`PUT /api/users/:id/order/:cid` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/order/1
+
+DATA SEND {
+            "qty": 3,
+            "note": "test update"
           }
 
 
@@ -1183,12 +1682,15 @@ RESPONSE >>
     Content-Type: application/json
 
     {
-        "id": 2,
-        "name": "AA Alkaline Batteries 1.5 V",
-        "description": "AA Alkaline Batteries 1.5 V",
-        "category_id": 1,
-        "price": 32.00,
-        "stock": 2000,
+        "id": 1,
+        "user_id": 1,
+        "product_id": 1,
+        "qty": 3,
+        "name": "Zero Power Bank 10000 AMP",
+        "description": "Zero Power Bank 10000 AMP",
+        "category": "Computers",
+        "price": 2200,
+        "total": 6600,
         "details": {
             "items": [
                 {
@@ -1196,26 +1698,28 @@ RESPONSE >>
                     "value": "Zero"
                 },
                 {
-                    "name": "AMP",
-                    "value": "2300"
+                    "name": "Power",
+                    "value": "10000 AMP"
                 }
             ]
         },
-        "image": "assets/images/products/02.jpg",
-        "status": 1,
-        "created": "2022-03-22T20:39:14.431Z"
+        "image": "assets/images/products/01.jpg",
+        "note": "test update"
     }
 ``` 
 
-#### Delete Shopping Cart Items
+#### Delete Orders Item
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+> CHANGE :id WITH User ID NUMBER
 
-> CHANGE :id WITH Product ID NUMBER
+> CHANGE :cid WITH Cart Item ID NUMBER
 
-`DELETE /api/users/:id/:cid/:id` 🔴
+`DELETE /api/users/:id/order/:cid` 🟢
 ```
-    http://localhost:{HTTP_PORT}/api/users/:id/:cid/2
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/order/2
 
 RESPONSE >>
 
@@ -1224,11 +1728,14 @@ RESPONSE >>
 
     {
         "id": 2,
+        "user_id": 1,
+        "product_id": 2,
+        "qty": 10,
         "name": "AA Alkaline Batteries 1.5 V",
         "description": "AA Alkaline Batteries 1.5 V",
-        "category_id": 1,
-        "price": 32.00,
-        "stock": 2000,
+        "category": "Computers",
+        "price": 32,
+        "total": 320,
         "details": {
             "items": [
                 {
@@ -1242,7 +1749,28 @@ RESPONSE >>
             ]
         },
         "image": "assets/images/products/02.jpg",
-        "status": 1,
-        "created": "2022-03-22T20:39:14.431Z"
+        "note": "test note"
+    }
+``` 
+
+#### Empty Orders Items
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH User ID NUMBER
+
+
+`DELETE /api/users/:id/order` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/order
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "bool": true
     }
 ``` 
