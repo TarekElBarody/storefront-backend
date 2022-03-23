@@ -399,7 +399,7 @@ HTTPS server on port 8443 at https://localhost:8443/api
 >   √ Should Return List of Pending Shopping Cart
 >   √ Should Return List of Top Buyer
 
->   Executed 112 of 112 specs SUCCESS in 5 secs.
+>   Executed 112 of 112 specs SUCCESS in 3 secs.
 
 ```
 

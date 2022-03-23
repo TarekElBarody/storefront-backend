@@ -91,40 +91,48 @@ Use the following structre to can undertand and maintaned the functionality of t
 > CHANGE :id WITH User ID NUMBER & :oid with Order ID NUMBER
 - Process 🟢    -  POST [/api//users/:id/order/process](#User-Process-Order)
 - Index 🟢   -  GET [/api/users/:id/orders](#User-Index-Orders)
-- Show 🟢   -  GET [/api/users/:id/orders/:oid](#User-Show-Orders)
+- Show 🟢   -  GET [/api/users/:id/orders/:oid](#User-Show-Order)
 
 
 > FOR ADMINS
 
 > CHANGE :id WITH Order ID NUMBER
-- Index  🔴    -  GET [/api/orders](#Index-Orders)     
-- Show  🔴    -  GET [/api/orders/:id](#Show-Orders)     
-- Create  🔴    -  POST [/api/orders/add](#Add-Orders)
-- Update 🔴    -  PUT [/api/orders/:id](#Update-Orders)
-- Delete 🔴   -  DELETE [/api/orders/:id](#Delete-Orders)
+- Index  🔴    -  GET [/api/orders](#Admin-Index-Orders)     
+- Show  🔴    -  GET [/api/orders/:id](#Admin-Show-Order)     
+- Create  🔴    -  POST [/api/orders/add](#Admin-Add-Order)
+- Update 🔴    -  PUT [/api/orders/:id](#Admin-Update-Order)
+- Delete 🔴   -  DELETE [/api/orders/:id](#Admin-Delete-Order)
 
 
 
 #### OrderItems
-> FOR ADMIN
-
-> CHANGE :id WITH OrderItem ID NUMBER & :oid with Order ID NUMBER
-- Index  🔴    -  GET [/api/orders/:oid/items](#Index-OrderItems)     
-- Show  🔴    -  GET [/api/orders/:oid/items/:id](#Show-OrderItems)     
-- Create  🔴    -  POST [/api/orders/:oid/items/add](#Add-OrderItems)
-- Update 🔴    -  PUT [/api/orders/:oid/items/:id](#Update-OrderItems)
-- Delete 🔴   -  DELETE [/api/orders/:oid/items/:id](#Delete-OrderItems)
+> [OrderItems Access API](#OrderItems-Access-API)
 
 > FOR USERS
 
 > CHANGE :id WITH OrderItem ID NUMBER & :oid with Order ID NUMBER & :uid WITH User ID NUMBER
-- Index 🟢   -  GET [/api/users/:id/orders/:oid/items](#User-Index-OrderItems)
-- Show 🟢   -  GET [/api/users/:id/orders/:oid/items/:id](#User-Show-OrderItems)
+- Index 🟢   -  GET [/api/users/:uid/orders/:oid/items](#User-Index-OrderItems)
+- Show 🟢   -  GET [/api/users/:uid/orders/:oid/items/:id](#User-Show-OrderItems)
+
+> FOR ADMIN
+
+> CHANGE :id WITH OrderItem ID NUMBER & :oid with Order ID NUMBER
+- Index  🔴    -  GET [/api/orders/:oid/items](#Admin-Index-OrderItems)     
+- Show  🔴    -  GET [/api/orders/:oid/items/:id](#Admin-Show-OrderItems)     
+- Create  🔴    -  POST [/api/orders/:oid/items/add](#Admin-Add-OrderItems)
+- Update 🔴    -  PUT [/api/orders/:oid/items/:id](#Admin-Update-OrderItems)
+- Delete 🔴   -  DELETE [/api/orders/:oid/items/:id](#Admin-Delete-OrderItems)
+
+
 
 #### Dashboard
+
+> [Dashboard Access API](#Dashboard-Access-API)
+
 > THIS ENDPOINT FOR STATISTICS AND DASHBOARD USAGE ONLY
 
 > YOU CAN LIMIT THE RESAULT BY USING ?limit=5 or ?limit=10 DEFAULT IS 5
+
 - Top Purshaed Products   ⚪    -  GET [/api/dashboard/top_purchased_products](#Dashboard-Top-Purshaed-Products) 
 - Top Pending Products   🔴    -  GET [/api/dashboard/top_pending_products](#Dashboard-Top-Pending-Products)    
 - Pending Shopping Cart   🔴    -  GET [/api/dashboard/pending_carts](#Dashboard-Pending-Shopping-Cart)        
@@ -510,7 +518,7 @@ RESPONSE >>
 
 ``` 
 
-##### Reset Users Password
+#### Reset Users Password
 > GENERATE ONLY USER TOKEN TO CAN ACCESS THIS ENDPOINT
 
 > CHANGE :id WITH USER ID NUMBER
@@ -668,7 +676,7 @@ RESPONSE >>
 
 > CHANGE :id WITH Category ID NUMBER
 
-`GET /api/categories/:id` 🟢
+`GET /api/categories/:id` ⚪
 ```
     http://localhost:{HTTP_PORT}/api/categories/1
 
@@ -979,7 +987,7 @@ RESPONSE >>
 
 > CHANGE :id WITH Product ID NUMBER
 
-`GET /api/products/:id` 🟢
+`GET /api/products/:id` ⚪
 ```
     http://localhost:{HTTP_PORT}/api/products/1
 
@@ -1238,30 +1246,30 @@ RESPONSE >>
             "note": "test note"
         },
         {
-        "id": 2,
-        "user_id": 1,
-        "product_id": 2,
-        "qty": 10,
-        "name": "AA Alkaline Batteries 1.5 V",
-        "description": "AA Alkaline Batteries 1.5 V",
-        "category": "Computers",
-        "price": 32,
-        "total": 320,
-        "details": {
-            "items": [
-                {
-                    "name": "Brand",
-                    "value": "Zero"
-                },
-                {
-                    "name": "AMP",
-                    "value": "2300"
-                }
-            ]
-        },
-        "image": "assets/images/products/02.jpg",
-        "note": "test note"
-    }
+            "id": 2,
+            "user_id": 1,
+            "product_id": 2,
+            "qty": 10,
+            "name": "AA Alkaline Batteries 1.5 V",
+            "description": "AA Alkaline Batteries 1.5 V",
+            "category": "Computers",
+            "price": 32,
+            "total": 320,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "AMP",
+                        "value": "2300"
+                    }
+                ]
+            },
+            "image": "assets/images/products/02.jpg",
+            "note": "test note"
+        }
 
     ]
 ``` 
@@ -1539,16 +1547,16 @@ RESPONSE >>
 ``` 
 
 
-#### Index Orders Items
+#### User Index Orders
 > GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
 > CHANGE :id WITH User ID NUMBER
 
-`GET /api/users/:id/order` 🟢
+`GET /api/users/:id/orders` 🟢
 ```
 Authorization: Bearer {TOKEN}
 
-    http://localhost:{HTTP_PORT}/api/users/1/order
+    http://localhost:{HTTP_PORT}/api/users/1/orders
 
 RESPONSE >>
 
@@ -1559,65 +1567,92 @@ RESPONSE >>
         {
             "id": 1,
             "user_id": 1,
-            "product_id": 1,
-            "qty": 2,
-            "name": "Zero Power Bank 10000 AMP",
-            "description": "Zero Power Bank 10000 AMP",
-            "category": "Computers",
-            "price": 2200,
-            "total": 4400,
-            "details": {
-                "items": [
+            "qty_count": 12,
+            "total": 4720,
+            "confirmed_by": 0,
+            "confirmed_date": null,
+            "payment_type": 1,
+            "note": "first order",
+            "status": 1,
+            "items": [
+                [
                     {
-                        "name": "Brand",
-                        "value": "Zero"
-                    },
+                        "id": 1,
+                        "order_id": 1,
+                        "product_id": 1,
+                        "product_info": {
+                            "id": 1,
+                            "name": "Zero Power Bank 10000 AMP",
+                            "description": "Zero Power Bank 10000 AMP",
+                            "category": "Computers",
+                            "price": 2200,
+                            "details": {
+                                "items": [
+                                            {
+                                                "name": "Brand",
+                                                "value": "Zero"
+                                            },
+                                            {
+                                                "name": "Power",
+                                                "value": "10000 AMP"
+                                            }
+                                        ]
+                            },
+                            "image": "assets/images/products/01.jpg"
+                        },
+                        "qty": 2,
+                        "price": 2200,
+                        "total": 4400,
+                        "note": "test note",
+                        "status": 1
+                    }
+                ],
+                [
                     {
-                        "name": "Power",
-                        "value": "10000 AMP"
+                        "id": 2,
+                        "order_id": 1,
+                        "product_id": 2,
+                        "product_info": {
+                            "id": 2,
+                            "name": "AA Alkaline Batteries 1.5 V",
+                            "description": "AA Alkaline Batteries 1.5 V",
+                            "category": "Computers",
+                            "price": 32,
+                            "details": {
+                                "items": [
+                                            {
+                                                "name": "Brand",
+                                                "value": "Zero"
+                                            },
+                                            {
+                                                "name": "AMP",
+                                                "value": "2300"
+                                            }
+                                        ]
+                            },
+                            "image": "assets/images/products/02.jpg"
+                        },
+                        "qty": 10,
+                        "price": 32,
+                        "total": 320,
+                        "note": "test note",
+                        "status": 1
                     }
                 ]
-            },
-            "image": "assets/images/products/01.jpg",
-            "note": "test note"
-        },
-        {
-        "id": 2,
-        "user_id": 1,
-        "product_id": 2,
-        "qty": 10,
-        "name": "AA Alkaline Batteries 1.5 V",
-        "description": "AA Alkaline Batteries 1.5 V",
-        "category": "Computers",
-        "price": 32,
-        "total": 320,
-        "details": {
-            "items": [
-                {
-                    "name": "Brand",
-                    "value": "Zero"
-                },
-                {
-                    "name": "AMP",
-                    "value": "2300"
-                }
             ]
-        },
-        "image": "assets/images/products/02.jpg",
-        "note": "test note"
-    }
+        }
 
     ]
 ``` 
 
-#### Show Orders Item
+#### User Show Order
 > GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
 > CHANGE :id WITH User ID NUMBER
 
-> CHANGE :cid WITH Cart Item ID NUMBER
+> CHANGE :oid WITH Order ID NUMBER
 
-`GET /api/users/:id/order/:cid` 🟢
+`GET /api/users/:id/order/:oid` 🟢
 ```
 Authorization: Bearer {TOKEN}
 
@@ -1629,50 +1664,360 @@ RESPONSE >>
     Content-Type: application/json
 
     {
-            "id": 1,
-            "user_id": 1,
-            "product_id": 1,
-            "qty": 2,
-            "name": "Zero Power Bank 10000 AMP",
-            "description": "Zero Power Bank 10000 AMP",
-            "category": "Computers",
-            "price": 2200,
-            "total": 4400,
-            "details": {
-                "items": [
-                    {
-                        "name": "Brand",
-                        "value": "Zero"
+        "id": 1,
+        "user_id": 1,
+        "qty_count": 12,
+        "total": 4720,
+        "confirmed_by": 0,
+        "confirmed_date": null,
+        "payment_type": 1,
+        "note": "first order",
+        "status": 1,
+        "items": [
+            [
+                {
+                    "id": 1,
+                    "order_id": 1,
+                    "product_id": 1,
+                    "product_info": {
+                        "id": 1,
+                        "name": "Zero Power Bank 10000 AMP",
+                        "description": "Zero Power Bank 10000 AMP",
+                        "category": "Computers",
+                        "price": 2200,
+                        "details": {
+                            "items": [
+                                        {
+                                            "name": "Brand",
+                                            "value": "Zero"
+                                        },
+                                        {
+                                            "name": "Power",
+                                            "value": "10000 AMP"
+                                        }
+                                    ]
+                        },
+                        "image": "assets/images/products/01.jpg"
                     },
-                    {
-                        "name": "Power",
-                        "value": "10000 AMP"
-                    }
-                ]
-            },
-            "image": "assets/images/products/01.jpg",
-            "note": "test note"
-        }
+                    "qty": 2,
+                    "price": 2200,
+                    "total": 4400,
+                    "note": "test note",
+                    "status": 1
+                }
+            ],
+            [
+                {
+                    "id": 2,
+                    "order_id": 1,
+                    "product_id": 2,
+                    "product_info": {
+                        "id": 2,
+                        "name": "AA Alkaline Batteries 1.5 V",
+                        "description": "AA Alkaline Batteries 1.5 V",
+                        "category": "Computers",
+                        "price": 32,
+                        "details": {
+                            "items": [
+                                        {
+                                            "name": "Brand",
+                                            "value": "Zero"
+                                        },
+                                        {
+                                            "name": "AMP",
+                                            "value": "2300"
+                                        }
+                                    ]
+                        },
+                        "image": "assets/images/products/02.jpg"
+                    },
+                    "qty": 10,
+                    "price": 32,
+                    "total": 320,
+                    "note": "test note",
+                    "status": 1
+                }
+            ]
+        ]
+    }
 ``` 
 
 
-#### Update Orders Item
-> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+#### Admin Index Orders
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
 > CHANGE :id WITH User ID NUMBER
 
-> CHANGE :cid WITH Cart Item ID NUMBER
-
-
-`PUT /api/users/:id/order/:cid` 🟢
+`GET /api/orders` 🔴
 ```
 Authorization: Bearer {TOKEN}
 
-    http://localhost:{HTTP_PORT}/api/users/1/order/1
+    http://localhost:{HTTP_PORT}/api/orders
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "user_id": 1,
+            "user_info": {
+                "id": 1,
+                "first_name": "Admin",
+                "last_name": "Admin",
+                "birthday": "1990-03-31",
+                "email": "admin@admin.com",
+                "mobile": "01111111111",
+                "created": "2022-03-22T04:03:50.662"
+            },
+            "qty_count": 12,
+            "total": 4720,
+            "confirmed_by": 0,
+            "confirmed_date": null,
+            "payment_type": 1,
+            "note": "first order",
+            "status": 1,
+            "items": [
+                [
+                    {
+                        "id": 1,
+                        "order_id": 1,
+                        "product_id": 1,
+                        "product_info": {
+                            "id": 1,
+                            "name": "Zero Power Bank 10000 AMP",
+                            "description": "Zero Power Bank 10000 AMP",
+                            "category": "Computers",
+                            "price": 2200,
+                            "details": {
+                                "items": [
+                                            {
+                                                "name": "Brand",
+                                                "value": "Zero"
+                                            },
+                                            {
+                                                "name": "Power",
+                                                "value": "10000 AMP"
+                                            }
+                                        ]
+                            },
+                            "image": "assets/images/products/01.jpg"
+                        },
+                        "qty": 2,
+                        "price": 2200,
+                        "total": 4400,
+                        "note": "test note",
+                        "status": 1
+                    }
+                ],
+                [
+                    {
+                        "id": 2,
+                        "order_id": 1,
+                        "product_id": 2,
+                        "product_info": {
+                            "id": 2,
+                            "name": "AA Alkaline Batteries 1.5 V",
+                            "description": "AA Alkaline Batteries 1.5 V",
+                            "category": "Computers",
+                            "price": 32,
+                            "details": {
+                                "items": [
+                                            {
+                                                "name": "Brand",
+                                                "value": "Zero"
+                                            },
+                                            {
+                                                "name": "AMP",
+                                                "value": "2300"
+                                            }
+                                        ]
+                            },
+                            "image": "assets/images/products/02.jpg"
+                        },
+                        "qty": 10,
+                        "price": 32,
+                        "total": 320,
+                        "note": "test note",
+                        "status": 1
+                    }
+                ]
+            ]
+        }
+
+    ]
+``` 
+
+#### Admin Show Order
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH Order ID NUMBER
+
+`GET /api/orders/:id` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/orders/1
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 1,
+        "user_id": 1,
+        "user_info": {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-31",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "created": "2022-03-22T04:03:50.662"
+        },
+        "qty_count": 12,
+        "total": 4720,
+        "confirmed_by": 0,
+        "confirmed_date": null,
+        "payment_type": 1,
+        "note": "first order",
+        "status": 1,
+        "items": [
+            [
+                {
+                    "id": 1,
+                    "order_id": 1,
+                    "product_id": 1,
+                    "product_info": {
+                        "id": 1,
+                        "name": "Zero Power Bank 10000 AMP",
+                        "description": "Zero Power Bank 10000 AMP",
+                        "category": "Computers",
+                        "price": 2200,
+                        "details": {
+                            "items": [
+                                        {
+                                            "name": "Brand",
+                                            "value": "Zero"
+                                        },
+                                        {
+                                            "name": "Power",
+                                            "value": "10000 AMP"
+                                        }
+                                    ]
+                        },
+                        "image": "assets/images/products/01.jpg"
+                    },
+                    "qty": 2,
+                    "price": 2200,
+                    "total": 4400,
+                    "note": "test note",
+                    "status": 1
+                }
+            ],
+            [
+                {
+                    "id": 2,
+                    "order_id": 1,
+                    "product_id": 2,
+                    "product_info": {
+                        "id": 2,
+                        "name": "AA Alkaline Batteries 1.5 V",
+                        "description": "AA Alkaline Batteries 1.5 V",
+                        "category": "Computers",
+                        "price": 32,
+                        "details": {
+                            "items": [
+                                        {
+                                            "name": "Brand",
+                                            "value": "Zero"
+                                        },
+                                        {
+                                            "name": "AMP",
+                                            "value": "2300"
+                                        }
+                                    ]
+                        },
+                        "image": "assets/images/products/02.jpg"
+                    },
+                    "qty": 10,
+                    "price": 32,
+                    "total": 320,
+                    "note": "test note",
+                    "status": 1
+                }
+            ]
+        ]
+    }
+``` 
+
+
+
+#### Admin Add Order
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`POST /api/orders/add` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/orders/add
 
 DATA SEND {
-            "qty": 3,
-            "note": "test update"
+            "user_id": "1",
+            "payment_type": "1",
+            "note": "admin order"
+         }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 2,
+        "user_id": 1,
+        "user_info": {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-31",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "created": "2022-03-22T04:03:50.662"
+        },
+        "qty_count": 0,
+        "total": 0,
+        "status": 1,
+        "confirmed_by": 0,
+        "confirmed_date": null,
+        "payment_type": 1,
+        "note": "admin order",
+        "created": "2022-03-23T01:35:56.811Z"
+    }
+
+   
+``` 
+
+
+#### Admin Update Order
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH Order ID NUMBER
+
+`PUT /api/orders/:id` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/orders/1
+
+DATA SEND {
+           "confirmed_by": "1",
+            "status": "2"
           }
 
 
@@ -1684,43 +2029,36 @@ RESPONSE >>
     {
         "id": 1,
         "user_id": 1,
-        "product_id": 1,
-        "qty": 3,
-        "name": "Zero Power Bank 10000 AMP",
-        "description": "Zero Power Bank 10000 AMP",
-        "category": "Computers",
-        "price": 2200,
-        "total": 6600,
-        "details": {
-            "items": [
-                {
-                    "name": "Brand",
-                    "value": "Zero"
-                },
-                {
-                    "name": "Power",
-                    "value": "10000 AMP"
-                }
-            ]
+        "user_info": {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-31",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "created": "2022-03-22T04:03:50.662"
         },
-        "image": "assets/images/products/01.jpg",
-        "note": "test update"
+        "qty_count": 12,
+        "total": 4720,
+        "status": 2,
+        "confirmed_by": 1,
+        "confirmed_date": "2022-03-23T03:44:38.876Z",
+        "payment_type": 1,
+        "note": "first order",
+        "created": "2022-03-23T00:42:38.253Z"
     }
 ``` 
 
-#### Delete Orders Item
-> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+#### Admin Delete Order
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-> CHANGE :id WITH User ID NUMBER
+> CHANGE :id WITH Order ID NUMBER
 
-> CHANGE :cid WITH Cart Item ID NUMBER
-
-`DELETE /api/users/:id/order/:cid` 🟢
+`DELETE /api/orders/:id`  🔴
 ```
 Authorization: Bearer {TOKEN}
 
-    http://localhost:{HTTP_PORT}/api/users/1/order/2
-
+    http://localhost:{HTTP_PORT}/api/orders/2
 RESPONSE >>
 
     HTTP/1.1 200 OK
@@ -1729,41 +2067,248 @@ RESPONSE >>
     {
         "id": 2,
         "user_id": 1,
-        "product_id": 2,
-        "qty": 10,
-        "name": "AA Alkaline Batteries 1.5 V",
-        "description": "AA Alkaline Batteries 1.5 V",
-        "category": "Computers",
-        "price": 32,
-        "total": 320,
-        "details": {
-            "items": [
-                {
-                    "name": "Brand",
-                    "value": "Zero"
-                },
-                {
-                    "name": "AMP",
-                    "value": "2300"
-                }
-            ]
+        "user_info": {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-31",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "created": "2022-03-22T04:03:50.662"
         },
-        "image": "assets/images/products/02.jpg",
-        "note": "test note"
+        "qty_count": 0,
+        "total": 0,
+        "status": 1,
+        "confirmed_by": 0,
+        "confirmed_date": null,
+        "payment_type": 1,
+        "note": "admin order",
+        "created": "2022-03-23T01:35:56.811Z"
     }
 ``` 
 
-#### Empty Orders Items
+### OrderItems Access API
+
+#### User Index OrderItems
 > GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
 
-> CHANGE :id WITH User ID NUMBER
+> CHANGE :oid with Order ID NUMBER & :uid WITH User ID NUMBER
 
-
-`DELETE /api/users/:id/order` 🟢
+`GET /api/users/:uid/orders/:oid/items` 🟢
 ```
 Authorization: Bearer {TOKEN}
 
-    http://localhost:{HTTP_PORT}/api/users/1/order
+    http://localhost:{HTTP_PORT}/api/users/1/orders/1/items
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+        [
+            {
+                "id": 1,
+                "order_id": 1,
+                "product_id": 1,
+                "product_info": {
+                    "id": 1,
+                    "name": "Zero Power Bank 10000 AMP",
+                    "description": "Zero Power Bank 10000 AMP",
+                    "category": "Computers",
+                    "price": 2200,
+                    "details": {
+                        "items": [
+                                    {
+                                        "name": "Brand",
+                                        "value": "Zero"
+                                    },
+                                    {
+                                        "name": "Power",
+                                        "value": "10000 AMP"
+                                    }
+                                ]
+                    },
+                    "image": "assets/images/products/01.jpg"
+                },
+                "qty": 2,
+                "price": 2200,
+                "total": 4400,
+                "note": "test note",
+                "status": 1
+            },
+            {
+                "id": 2,
+                "order_id": 1,
+                "product_id": 2,
+                "product_info": {
+                    "id": 2,
+                    "name": "AA Alkaline Batteries 1.5 V",
+                    "description": "AA Alkaline Batteries 1.5 V",
+                    "category": "Computers",
+                    "price": 32,
+                    "details": {
+                        "items": [
+                                    {
+                                        "name": "Brand",
+                                        "value": "Zero"
+                                    },
+                                    {
+                                        "name": "AMP",
+                                        "value": "2300"
+                                    }
+                                ]
+                    },
+                    "image": "assets/images/products/02.jpg"
+                },
+                "qty": 10,
+                "price": 32,
+                "total": 320,
+                "note": "test note",
+                "status": 1
+            }
+        ]
+``` 
+
+#### User Show OrderItems
+> GENERATE USERS OR ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH OrderItem ID NUMBER & :oid with Order ID NUMBER & :uid WITH User ID NUMBER
+
+`GET /api/users/:uid/orders/:oid/items/:id` 🟢
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/users/1/orders/1/items/1
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+        {
+            "id": 1,
+            "order_id": 1,
+            "product_id": 1,
+            "product_info": {
+                "id": 1,
+                "name": "Zero Power Bank 10000 AMP",
+                "description": "Zero Power Bank 10000 AMP",
+                "category": "Computers",
+                "price": 2200,
+                "details": {
+                    "items": [
+                                {
+                                    "name": "Brand",
+                                    "value": "Zero"
+                                },
+                                {
+                                    "name": "Power",
+                                    "value": "10000 AMP"
+                                }
+                            ]
+                },
+                "image": "assets/images/products/01.jpg"
+            },
+            "qty": 2,
+            "price": 2200,
+            "total": 4400,
+            "note": "test note",
+            "status": 1
+        }
+``` 
+
+
+
+#### Admin Index OrderItems
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :oid WITH Order ID NUMBER
+
+`GET /api/orders/:oid/items` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/orders/1/items
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "order_id": 1,
+            "product_id": 1,
+            "product_info": {
+                "id": 1,
+                "name": "Zero Power Bank 10000 AMP",
+                "description": "Zero Power Bank 10000 AMP",
+                "category": "Computers",
+                "price": 2200,
+                "details": {
+                    "items": [
+                                {
+                                    "name": "Brand",
+                                    "value": "Zero"
+                                },
+                                {
+                                    "name": "Power",
+                                    "value": "10000 AMP"
+                                }
+                            ]
+                },
+                "image": "assets/images/products/01.jpg"
+            },
+            "qty": 2,
+            "price": 2200,
+            "total": 4400,
+            "note": "test note",
+            "status": 1
+        },
+        {
+            "id": 2,
+            "order_id": 1,
+            "product_id": 2,
+            "product_info": {
+                "id": 2,
+                "name": "AA Alkaline Batteries 1.5 V",
+                "description": "AA Alkaline Batteries 1.5 V",
+                "category": "Computers",
+                "price": 32,
+                "details": {
+                    "items": [
+                                {
+                                    "name": "Brand",
+                                    "value": "Zero"
+                                },
+                                {
+                                    "name": "AMP",
+                                    "value": "2300"
+                                }
+                            ]
+                },
+                "image": "assets/images/products/02.jpg"
+            },
+            "qty": 10,
+            "price": 32,
+            "total": 320,
+            "note": "test note",
+            "status": 1
+        }
+    ]
+``` 
+
+#### Admin Show OrderItems
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH OrderItem ID NUMBER & :oid with Order ID NUMBER
+
+`GET /api/orders/:oid/items/:id` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/orders/1/items/1
 
 RESPONSE >>
 
@@ -1771,6 +2316,570 @@ RESPONSE >>
     Content-Type: application/json
 
     {
-        "bool": true
+            "id": 1,
+            "order_id": 1,
+            "product_id": 1,
+            "product_info": {
+                "id": 1,
+                "name": "Zero Power Bank 10000 AMP",
+                "description": "Zero Power Bank 10000 AMP",
+                "category": "Computers",
+                "price": 2200,
+                "details": {
+                    "items": [
+                                {
+                                    "name": "Brand",
+                                    "value": "Zero"
+                                },
+                                {
+                                    "name": "Power",
+                                    "value": "10000 AMP"
+                                }
+                            ]
+                },
+                "image": "assets/images/products/01.jpg"
+            },
+            "qty": 2,
+            "price": 2200,
+            "total": 4400,
+            "note": "test note",
+            "status": 1
+        }
+``` 
+
+
+
+#### Admin Add OrderItems
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :oid with Order ID NUMBER
+
+
+`POST /api/orders/:oid/items/add` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/orders/1/items/add
+
+DATA SEND {
+           product_id": "1",
+            "qty": "1"
+            "note": "admin insert",
+         }
+
+
+RESPONSE >>
+
+    HTTP/1.1 201 CREATED
+    Content-Type: application/json
+
+    {
+        "id": 3,
+        "order_id": 1,
+        "product_id": 1,
+        "product_info": {
+            "id": 1,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category": "Computers",
+            "price": 2200,
+            "details": {
+                "items": [
+                            {
+                                "name": "Brand",
+                                "value": "Zero"
+                            },
+                            {
+                                "name": "Power",
+                                "value": "10000 AMP"
+                            }
+                        ]
+            },
+            "image": "assets/images/products/01.jpg"
+        },
+        "qty": 1,
+        "price": 2200,
+        "total": 2200,
+        "note": "admin insert",
+        "status": 1
+    }
+
+   
+``` 
+
+
+#### Admin Update OrderItems
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH OrderItem ID NUMBER & :oid with Order ID NUMBER
+
+`PUT /api/orders/:oid/items/:id` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/orders/1/items/3
+
+DATA SEND {
+           "qty": "2",
+            "note": "admin update",
+            "status" : 2
+          }
+
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 3,
+        "order_id": 1,
+        "product_id": 1,
+        "product_info": {
+            "id": 1,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category": "Computers",
+            "price": 2200,
+            "details": {
+                "items": [
+                            {
+                                "name": "Brand",
+                                "value": "Zero"
+                            },
+                            {
+                                "name": "Power",
+                                "value": "10000 AMP"
+                            }
+                        ]
+            },
+            "image": "assets/images/products/01.jpg"
+        },
+        "qty": 2,
+        "price": 2200,
+        "total": 4400,
+        "note": "admin update",
+        "status": 2
     }
 ``` 
+
+#### Admin Delete OrderItems
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+> CHANGE :id WITH OrderItem ID NUMBER & :oid with Order ID NUMBER
+
+`DELETE /api/orders/:oid/items/:id`  🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/orders/1/items/3
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "id": 3,
+        "order_id": 1,
+        "product_id": 1,
+        "product_info": {
+            "id": 1,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category": "Computers",
+            "price": 2200,
+            "details": {
+                "items": [
+                            {
+                                "name": "Brand",
+                                "value": "Zero"
+                            },
+                            {
+                                "name": "Power",
+                                "value": "10000 AMP"
+                            }
+                        ]
+            },
+            "image": "assets/images/products/01.jpg"
+        },
+        "qty": 2,
+        "price": 2200,
+        "total": 4400,
+        "note": "admin update",
+        "status": 2
+    }
+``` 
+
+### Dashboard Access API
+
+#### Dashboard Top Purshaed Products
+> NO TOKEN IS REQUIERD
+
+`GET /api/dashboard/top_purchased_products` ⚪
+```
+    http://localhost:{HTTP_PORT}/api/dashboard/top_purchased_products
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category_id": 1,
+            "price": 2200,
+            "stock": 51,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "Power",
+                        "value": "10000 AMP"
+                    }
+                ]
+            },
+            "image": "assets/images/products/01.jpg",
+            "status": 1,
+            "created": "2022-03-22T20:25:14.825Z",
+            "count" : 10
+        },
+        {
+            "id": 2,
+            "name": "AA Alkaline Batteries 1.5 V",
+            "description": "AA Alkaline Batteries 1.5 V",
+            "category_id": 1,
+            "price": 23,
+            "stock": 1000,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "AMP",
+                        "value": "2300"
+                    }
+                ]
+            },
+            "image": "assets/images/products/02.jpg",
+            "status": 1,
+            "created": "2022-03-22T20:40:35.837Z",
+            "count" : 6
+        }
+    ]
+``` 
+
+#### Dashboard Top Pending Products
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`GET /api/dashboard/top_pending_products` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/dashboard/top_pending_products
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "name": "Zero Power Bank 10000 AMP",
+            "description": "Zero Power Bank 10000 AMP",
+            "category_id": 1,
+            "price": 2200,
+            "stock": 51,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "Power",
+                        "value": "10000 AMP"
+                    }
+                ]
+            },
+            "image": "assets/images/products/01.jpg",
+            "status": 1,
+            "created": "2022-03-22T20:25:14.825Z",
+            "count" : 2
+        },
+        {
+            "id": 2,
+            "name": "AA Alkaline Batteries 1.5 V",
+            "description": "AA Alkaline Batteries 1.5 V",
+            "category_id": 1,
+            "price": 23,
+            "stock": 1000,
+            "details": {
+                "items": [
+                    {
+                        "name": "Brand",
+                        "value": "Zero"
+                    },
+                    {
+                        "name": "AMP",
+                        "value": "2300"
+                    }
+                ]
+            },
+            "image": "assets/images/products/02.jpg",
+            "status": 1,
+            "created": "2022-03-22T20:40:35.837Z",
+            "count" : 1
+        }
+    ]
+``` 
+
+
+
+
+
+#### Dashboard Pending Shopping Cart
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`GET /api/dashboard/pending_carts` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/dashboard/pending_carts
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-30T22:00:00.000Z",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "role": 1,
+            "created": "2022-03-22T02:03:50.662Z",
+            "cart_items": [
+                [
+                    {
+                        "id": 1,
+                        "user_id": 1,
+                        "product_id": 1,
+                        "qty": 2,
+                        "name": "Zero Power Bank 10000 AMP",
+                        "description": "Zero Power Bank 10000 AMP",
+                        "category": "Computers",
+                        "price": 2200,
+                        "total": 4400,
+                        "details": {
+                            "items": [
+                                {
+                                    "name": "Brand",
+                                    "value": "Zero"
+                                },
+                                {
+                                    "name": "Power",
+                                    "value": "10000 AMP"
+                                }
+                            ]
+                        },
+                        "image": "assets/images/products/01.jpg",
+                        "note": "test note"
+                    }
+                ],
+                [
+                    {
+                        "id": 2,
+                        "user_id": 1,
+                        "product_id": 2,
+                        "qty": 10,
+                        "name": "AA Alkaline Batteries 1.5 V",
+                        "description": "AA Alkaline Batteries 1.5 V",
+                        "category": "Computers",
+                        "price": 32,
+                        "total": 320,
+                        "details": {
+                            "items": [
+                                {
+                                    "name": "Brand",
+                                    "value": "Zero"
+                                },
+                                {
+                                    "name": "AMP",
+                                    "value": "2300"
+                                }
+                            ]
+                        },
+                        "image": "assets/images/products/02.jpg",
+                        "note": "test note"
+                    }
+                ]
+            ]
+        }
+    ]
+``` 
+
+#### Dashboard Top User Buyers
+> GENERATE ONLY ADMIN TOKEN TO CAN ACCESS THIS ENDPOINT
+
+`GET /api/dashboard/top_buyer` 🔴
+```
+Authorization: Bearer {TOKEN}
+
+    http://localhost:{HTTP_PORT}/api/dashboard/top_buyer
+
+RESPONSE >>
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    [
+        {
+            "id": 1,
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "birthday": "1990-03-30T22:00:00.000Z",
+            "email": "admin@admin.com",
+            "mobile": "01111111111",
+            "role": 1,
+            "created": "2022-03-22T02:03:50.662Z",
+            "order_count": 2,
+            "order_sum": 41800,
+            "most_products": [
+                            {
+                                "id": 1,
+                                "name": "Zero Power Bank 10000 AMP",
+                                "description": "Zero Power Bank 10000 AMP",
+                                "category": "Computers",
+                                "price": 2200,
+                                "details": {
+                                    "items": [
+                                        {
+                                            "name": "Brand",
+                                            "value": "Zero"
+                                        },
+                                        {
+                                            "name": "Power",
+                                            "value": "10000 AMP"
+                                        }
+                                    ]
+                                },
+                                "image": "assets/images/products/01.jpg",
+                            },
+                            {
+                                "id": 2,
+                                "name": "AA Alkaline Batteries 1.5 V",
+                                "description": "AA Alkaline Batteries 1.5 V",
+                                "category": "Computers",
+                                "price": 32,
+                                "details": {
+                                    "items": [
+                                        {
+                                            "name": "Brand",
+                                            "value": "Zero"
+                                        },
+                                        {
+                                            "name": "AMP",
+                                            "value": "2300"
+                                        }
+                                    ]
+                                },
+                                "image": "assets/images/products/02.jpg",
+                            }
+                        ],
+            "last_orders": [
+                        {
+                            "id": 1,
+                            "user_id": 1,
+                            "qty_count": 12,
+                            "total": 4720,
+                            "confirmed_by": 0,
+                            "confirmed_date": null,
+                            "payment_type": 1,
+                            "note": "first order",
+                            "status": 1,
+                            "items": [
+                        [
+                            {
+                                "id": 1,
+                                "order_id": 1,
+                                "product_id": 1,
+                                "product_info": {
+                                    "id": 1,
+                                    "name": "Zero Power Bank 10000 AMP",
+                                    "description": "Zero Power Bank 10000 AMP",
+                                    "category": "Computers",
+                                    "price": 2200,
+                                    "details": {
+                                        "items": [
+                                                    {
+                                                        "name": "Brand",
+                                                        "value": "Zero"
+                                                    },
+                                                    {
+                                                        "name": "Power",
+                                                        "value": "10000 AMP"
+                                                    }
+                                                ]
+                                    },
+                                    "image": "assets/images/products/01.jpg"
+                                },
+                                "qty": 2,
+                                "price": 2200,
+                                "total": 4400,
+                                "note": "test note",
+                                "status": 1
+                            }
+                        ],
+                        [
+                            {
+                                "id": 2,
+                                "order_id": 1,
+                                "product_id": 2,
+                                "product_info": {
+                                    "id": 2,
+                                    "name": "AA Alkaline Batteries 1.5 V",
+                                    "description": "AA Alkaline Batteries 1.5 V",
+                                    "category": "Computers",
+                                    "price": 32,
+                                    "details": {
+                                        "items": [
+                                                    {
+                                                        "name": "Brand",
+                                                        "value": "Zero"
+                                                    },
+                                                    {
+                                                        "name": "AMP",
+                                                        "value": "2300"
+                                                    }
+                                                ]
+                                    },
+                                    "image": "assets/images/products/02.jpg"
+                                },
+                                "qty": 10,
+                                "price": 32,
+                                "total": 320,
+                                "note": "test note",
+                                "status": 1
+                            }
+                        ]
+                    ]
+                }
+
+            ]
+        }
+    ]
+``` 
+
