@@ -18,7 +18,35 @@ dotenv.config();
 const userLog = new logger('userLog');
 
 const index = async (req: Request, res: Response): Promise<void> => {
-  const user_id = Number(req.params.id);
+  if (
+    req.session.user &&
+    req.session.isToken === true &&
+    (req.session.isAdmin === true || (req.session.user.role as number) == 2)
+  ) {
+    try {
+      const orderID = Number(req.params.oid);
+      const orderItems = await store.index(orderID);
+      res.json(orderItems);
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        message: `Enable to process your request ${error}`
+      });
+    }
+  } else {
+    // if orderItems not logged in return an error message
+    res.status(401).json({
+      success: false,
+      message:
+        'you have to provide a token with right permission to can access this function'
+    });
+  }
+
+  return;
+};
+
+const userIndex = async (req: Request, res: Response): Promise<void> => {
+  const user_id = Number(req.params.uid);
   if (
     req.session.user &&
     req.session.isToken === true &&
@@ -28,7 +56,7 @@ const index = async (req: Request, res: Response): Promise<void> => {
   ) {
     try {
       const orderID = Number(req.params.oid);
-      const orderItems = await store.index(orderID);
+      const orderItems = await store.userIndex(orderID, user_id);
       res.json(orderItems);
     } catch (error) {
       res.status(400).json({
@@ -122,7 +150,37 @@ const create = async (req: Request, res: Response): Promise<void> => {
 };
 
 const show = async (req: Request, res: Response): Promise<void> => {
-  const user_id = Number(req.params.id);
+  if (
+    req.session.user &&
+    req.session.isToken === true &&
+    (req.session.isAdmin === true || (req.session.user.role as number) == 2)
+  ) {
+    try {
+      const orderItems = await store.show(
+        Number(req.params.id),
+        Number(req.params.oid)
+      );
+      res.json(orderItems);
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        message: `Enable to process your request ${error}`
+      });
+    }
+  } else {
+    // if orderItems not logged in return an error message
+    res.status(401).json({
+      success: false,
+      message:
+        'you have to provide a token with right permission to can access this function'
+    });
+  }
+
+  return;
+};
+
+const userShow = async (req: Request, res: Response): Promise<void> => {
+  const user_id = Number(req.params.uid);
   if (
     req.session.user &&
     req.session.isToken === true &&
@@ -131,9 +189,10 @@ const show = async (req: Request, res: Response): Promise<void> => {
       (req.session.user.id as number) == user_id)
   ) {
     try {
-      const orderItems = await store.show(
+      const orderItems = await store.userShow(
         Number(req.params.id),
-        Number(req.params.oid)
+        Number(req.params.oid),
+        user_id
       );
       res.json(orderItems);
     } catch (error) {
@@ -250,8 +309,8 @@ const orderItemsHandler = (apiRoute: express.Router) => {
   apiRoute.post('/orders/:oid/items/add', verifyTokens, create);
   apiRoute.put('/orders/:oid/items/:id', verifyTokens, update);
   apiRoute.delete('/orders/:oid/items/:id', verifyTokens, deleteOrderItems);
-  apiRoute.get('/users/:uid/orders/:oid/items', verifyTokens, index);
-  apiRoute.get('/users/:uid/orders/:oid/items/:id', verifyTokens, show);
+  apiRoute.get('/users/:uid/orders/:oid/items', verifyTokens, userIndex);
+  apiRoute.get('/users/:uid/orders/:oid/items/:id', verifyTokens, userShow);
 };
 
 export default orderItemsHandler;

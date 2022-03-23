@@ -99,13 +99,16 @@ export default class CategoryStore {
 
   async delete(id: number): Promise<Category> {
     try {
-      const sql = 'DELETE FROM categories WHERE id=$1 RETURNING *;';
+      const sql =
+        'DELETE FROM categories WHERE id=$1 AND id NOT IN(SELECT parent FROM categories) RETURNING *;';
 
       const conn = await db.connect();
 
       const result = await conn.query(sql, [id]);
 
       conn.release();
+      if (result.rows.length == 0)
+        throw new Error(`Could not delete Category # ${id}`);
 
       return result.rows[0];
     } catch (err) {

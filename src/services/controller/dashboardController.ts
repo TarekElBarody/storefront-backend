@@ -22,7 +22,7 @@ const topPurchasedProducts = async (
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Cannot process you request contact your administrator'
+      message: 'Cannot process you request contact your administrator ' + error
     });
   }
 
@@ -43,7 +43,7 @@ const topPendingProducts = async (
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Cannot process you request contact your administrator'
+      message: 'Cannot process you request contact your administrator ' + error
     });
   }
 
@@ -66,7 +66,7 @@ const pendingCarts = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message: 'Cannot process you request contact your administrator ' + error
       });
     }
   } else {
@@ -97,7 +97,7 @@ const topBuyer = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message: 'Cannot process you request contact your administrator ' + error
       });
     }
   } else {

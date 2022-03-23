@@ -123,7 +123,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
 };
 
 const processOrder = async (req: Request, res: Response): Promise<void> => {
-  const user_id = Number(req.body.user_id);
+  const user_id = Number(req.params.id);
   if (
     req.session.user &&
     req.session.isToken === true &&
@@ -347,7 +347,7 @@ const deleteOrder = async (req: Request, res: Response): Promise<void> => {
 const orderHandler = (apiRoute: express.Router) => {
   apiRoute.get('/users/:id/orders', verifyTokens, userOrders);
   apiRoute.get('/users/:id/order/:oid', verifyTokens, showUserOrder);
-  apiRoute.post('/orders/process', verifyTokens, processOrder);
+  apiRoute.post('/users/:id/order/process', verifyTokens, processOrder);
   apiRoute.get('/orders', verifyTokens, index);
   apiRoute.get('/orders/:id', verifyTokens, show);
   apiRoute.post('/orders/add', verifyTokens, create);

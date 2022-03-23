@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { httpApp, httpsApp, sslCert } from '../../server';
 import {
   Product,
+  ProductInsert,
   SignedToken,
   User,
   UserRoles,
@@ -75,7 +76,7 @@ describe('Test Products Handlers EndPoint (productsHandlerSpec)', async (): Prom
   });
 
   it('Should Endpoint Insert New Products', async (): Promise<void> => {
-    const product: Product = {
+    const product: ProductInsert = {
       name: 'Apple iPhone 13 Pro Max with FaceTime - 256GB, 6GB RAM, 4G LTE, Sierra Blue, Single SIM & E-SIM',
       description: `6.7-inch Super Retina XDR display with ProMotion for a faster, more responsive feel
         Cinematic mode adds shallow depth of field and shifts focus automatically in your videos
@@ -85,7 +86,7 @@ describe('Test Products Handlers EndPoint (productsHandlerSpec)', async (): Prom
       category_id: categoryID,
       price: 24299.0,
       stock: 5,
-      details: {
+      details: JSON.stringify({
         items: [
           { name: 'OS', value: 'IOS 14' },
           { name: 'RAM', value: '256 GB' },
@@ -105,7 +106,7 @@ describe('Test Products Handlers EndPoint (productsHandlerSpec)', async (): Prom
           { name: 'Whats in the box', value: 'USB Cable' },
           { name: 'Item Weight', value: '200 g' }
         ]
-      },
+      }),
       image: 'assets/images/products/01.jpg',
       status: 1,
       created: created

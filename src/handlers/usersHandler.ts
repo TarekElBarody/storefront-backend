@@ -34,7 +34,8 @@ const index = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message:
+          'Cannot process you request contact your administrator ' + error
       });
     }
   } else {
@@ -55,7 +56,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
     req.session.isToken === true &&
     req.session.isAdmin === true
   ) {
-    role = req.body.role as number;
+    role = req.body.role as number | 3;
   }
 
   try {
@@ -69,7 +70,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
       email: String(req.body.email),
       password: String(req.body.password),
       mobile: String(req.body.mobile),
-      role: role,
+      role: role | 3,
       created: dateNow()
     };
 
@@ -103,7 +104,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Cannot process you request contact your administrator'
+      message: 'Cannot process you request contact your administrator ' + error
     });
   }
   return;
@@ -126,7 +127,8 @@ const show = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message:
+          'Cannot process you request contact your administrator ' + error
       });
     }
   } else {
@@ -161,8 +163,7 @@ const update = async (req: Request, res: Response): Promise<void> => {
         last_name: req.body.last_name ? String(req.body.last_name) : undefined,
         birthday: req.body.birthday ? new Date(req.body.birthday) : undefined,
         email: req.body.email ? String(req.body.email) : undefined,
-        mobile: req.body.mobile ? String(req.body.mobile) : undefined,
-        role: req.body.role ? Number(req.body.role) : undefined
+        mobile: req.body.mobile ? String(req.body.mobile) : undefined
       };
 
       if (user.first_name && user.first_name.length < 2) validate = false;
@@ -193,7 +194,8 @@ const update = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message:
+          'Cannot process you request contact your administrator ' + error
       });
     }
   } else {
@@ -225,7 +227,8 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message:
+          'Cannot process you request contact your administrator ' + error
       });
     }
   } else {
@@ -337,7 +340,8 @@ const resetPassword = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message:
+          'Cannot process you request contact your administrator ' + error
       });
     }
   } else {

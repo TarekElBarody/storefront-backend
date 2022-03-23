@@ -179,7 +179,7 @@ describe('Test Dashboard Service Controller (dashboardControllerSpec)', async ()
     const orderItemsStore = new OrderItemsStore();
 
     const orders = await orderStore.index();
-    //console.log(orders);
+
     for (let o = 0; o < orders.length; o++) {
       if (o % 2) {
         await orderStore.update({

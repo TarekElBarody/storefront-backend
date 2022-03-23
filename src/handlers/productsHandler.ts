@@ -43,9 +43,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
         price: Number(req.body.price),
         stock: req.body.stock ? Number(req.body.stock) : 0,
         details: {
-          items: req.body.details.items
-            ? JSON.parse(JSON.stringify(String(req.body.details.items)))
-            : []
+          items: req.body.details ? JSON.parse(req.body.details).items : []
         },
         image: req.body.image ? String(req.body.image) : null,
         status: req.body.status ? Number(req.body.status) : 0,
@@ -62,7 +60,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
         errorMsg.push('Product description is not Valid');
       }
 
-      if (product.category_id == undefined || product.category_id < 2) {
+      if (product.category_id == undefined || product.category_id <= 0) {
         validate = false;
         errorMsg.push('Product category_id is not Valid');
       }
@@ -150,9 +148,7 @@ const update = async (req: Request, res: Response): Promise<void> => {
         stock: req.body.stock ? Number(req.body.stock) : undefined,
         details: req.body.details
           ? {
-              items: req.body.details.items
-                ? JSON.parse(JSON.stringify(String(req.body.details.items)))
-                : []
+              items: req.body.details ? JSON.parse(req.body.details).items : []
             }
           : undefined,
         image: req.body.image ? String(req.body.image) : undefined,
@@ -166,27 +162,27 @@ const update = async (req: Request, res: Response): Promise<void> => {
 
       if (product.description != undefined && product.description.length < 2) {
         validate = false;
-        errorMsg.push('Product Name is not Valid');
+        errorMsg.push('Product description is not Valid');
       }
 
-      if (product.category_id != undefined && product.category_id < 2) {
+      if (product.category_id != undefined && product.category_id <= 0) {
         validate = false;
-        errorMsg.push('Product Name is not Valid');
+        errorMsg.push('Product category_id is not Valid');
       }
 
       if (product.price != undefined && product.price <= 0) {
         validate = false;
-        errorMsg.push('Product Name is not Valid');
+        errorMsg.push('Product price is not Valid');
       }
 
       if (product.details != undefined && product.details.items == undefined) {
         validate = false;
-        errorMsg.push('Product Name is not Valid');
+        errorMsg.push('Product details is not Valid');
       }
 
       if (product.status != undefined && !(product.status in [0, 1])) {
         validate = false;
-        errorMsg.push('Product Name is not Valid');
+        errorMsg.push('Product status is not Valid');
       }
 
       if (validate) {

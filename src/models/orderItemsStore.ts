@@ -14,12 +14,12 @@ export default class OrderItemsStore {
     }
   }
 
-  async indexAll(): Promise<OrderItems[]> {
+  async userIndex(order_id: number, user_id: number): Promise<OrderItems[]> {
     try {
       const conn = await db.connect();
       const sql =
-        'SELECT id, order_id, product_id, status  FROM order_items ORDER BY order_id ASC, id ASC;';
-      const result = await conn.query(sql);
+        'SELECT * FROM order_items WHERE order_id IN (SELECT id FROM orders WHERE id=$1 AND user_id=$2);';
+      const result = await conn.query(sql, [order_id, user_id]);
       conn.release();
       return result.rows;
     } catch (err) {
@@ -58,6 +58,23 @@ export default class OrderItemsStore {
       const sql = 'SELECT * FROM order_items WHERE id=$1 AND order_id=$2;';
       const conn = await db.connect();
       const result = await conn.query(sql, [id, order_id]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw Error(`Could not get Item # ${id} From Order Error: ${err}`);
+    }
+  }
+
+  async userShow(
+    id: number,
+    order_id: number,
+    user_id: number
+  ): Promise<OrderItems> {
+    try {
+      const sql =
+        'SELECT * FROM order_items WHERE id=$1 AND order_id IN (SELECT id FROM orders WHERE id=$2 AND user_id=$3);';
+      const conn = await db.connect();
+      const result = await conn.query(sql, [id, order_id, user_id]);
       conn.release();
       return result.rows[0];
     } catch (err) {

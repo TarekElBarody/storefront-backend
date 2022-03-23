@@ -18,7 +18,7 @@ const index = async (_req: Request, res: Response): Promise<void> => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Cannot process you request contact your administrator'
+      message: 'Cannot process you request contact your administrator ' + error
     });
   }
 
@@ -59,7 +59,8 @@ const create = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message:
+          'Cannot process you request contact your administrator ' + error
       });
     }
   } else {
@@ -82,7 +83,7 @@ const show = async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: 'Cannot process you request contact your administrator'
+      message: 'Cannot process you request contact your administrator ' + error
     });
   }
 
@@ -124,7 +125,8 @@ const update = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(400).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message:
+          'Cannot process you request contact your administrator ' + error
       });
     }
   } else {
@@ -155,7 +157,8 @@ const deleteCategory = async (req: Request, res: Response): Promise<void> => {
     } catch (error) {
       res.status(401).json({
         success: false,
-        message: 'Cannot process you request contact your administrator'
+        message:
+          'Cannot process you request contact your administrator ' + error
       });
     }
   } else {

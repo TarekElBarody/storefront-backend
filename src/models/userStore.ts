@@ -109,18 +109,6 @@ export default class UserStore {
         innerSql += 'mobile=$' + count + ',';
       }
 
-      if (user.role) {
-        count++;
-        valuesArray.push(user.role);
-        innerSql += 'role=$' + count + ',';
-      }
-
-      if (user.birthday) {
-        count++;
-        valuesArray.push(user.birthday);
-        innerSql += 'birthday=$' + count + ',';
-      }
-
       if (count >= 1) {
         count++;
         valuesArray.push(user.id);

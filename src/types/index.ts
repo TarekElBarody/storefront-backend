@@ -37,7 +37,8 @@ import {
   ProductDetail,
   ProductStatus,
   ProductRes,
-  TopProduct
+  TopProduct,
+  ProductInsert
 } from './productType';
 export {
   User,
@@ -60,6 +61,7 @@ export {
   ProductDetail,
   ProductStatus,
   TopProduct,
+  ProductInsert,
   ShoppingCart,
   ShoppingCartUpdate,
   ShoppingCartRes,

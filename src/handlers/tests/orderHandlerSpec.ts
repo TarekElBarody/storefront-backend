@@ -180,7 +180,7 @@ describe('Test Orders Handlers EndPoint (ordersHandlerSpec)', async (): Promise<
     let res: supertest.Response;
     if (process.env.SECURE == '1') {
       res = await requestHttps
-        .post(`/api/orders/process`)
+        .post(`/api//users/${userID}/order/process`)
         .send(order)
         .set('Authorization', `Bearer ${userSignedToken.token}`)
         .trustLocalhost()
@@ -188,7 +188,7 @@ describe('Test Orders Handlers EndPoint (ordersHandlerSpec)', async (): Promise<
         .cert(sslCert.cert);
     } else {
       res = await requestHttp
-        .post(`/api/orders/process`)
+        .post(`/api//users/${userID}/order/process`)
         .send(order)
         .set('Authorization', `Bearer ${userSignedToken.token}`);
     }

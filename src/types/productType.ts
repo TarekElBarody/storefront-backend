@@ -21,6 +21,19 @@ export type Product = {
   created: Date | null;
 };
 
+export type ProductInsert = {
+  id?: number;
+  name: string;
+  description: string;
+  category_id: number;
+  price: number;
+  stock: number;
+  details: string;
+  image: string | null;
+  status: ProductStatus;
+  created: Date | null;
+};
+
 export type TopProduct = {
   id?: number;
   name: string;
