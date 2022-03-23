@@ -74,7 +74,7 @@ git clone https://github.com/TarekElBarody/storefront-backend.git
 cd  storefront-backend
 npm install
 ```
-- Change .env.example to .env and fill necessary data
+- Change example.env to .env and fill necessary data
   * ENV                 # dev or test or production
   * HTTP_PORT           # http port like 8080 or 3000
   * HTTPS_PORT          # https port like 8443 or 4000
@@ -155,7 +155,7 @@ npm run migrate
    - .prettierrc         # store Prettier configuration for code formatter
    - .eslintrc           # store ESlint code linting for typescript
    - database.json       # db-migrate configuration file
-   - .env.example        # example of .env for store node environment sensitive data
+   - example.env        # example of .env for store node environment sensitive data
 
 ```
 
