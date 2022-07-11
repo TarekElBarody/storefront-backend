@@ -1,7 +1,0 @@
-CREATE TABLE categories (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    parent INTEGER NOT NULL DEFAULT 0,
-    icon VARCHAR(255) NULL,
-    created TIMESTAMP DEFAULT NOW()
-);

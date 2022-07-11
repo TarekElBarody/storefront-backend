@@ -1,1 +1,0 @@
-DROP FUNCTION category_path CASCADE;

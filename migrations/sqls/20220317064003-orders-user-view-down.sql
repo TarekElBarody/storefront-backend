@@ -1,1 +1,0 @@
-DROp VIEW orders_user_view CASCADE;

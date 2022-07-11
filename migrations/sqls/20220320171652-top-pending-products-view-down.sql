@@ -1,1 +1,0 @@
-DROP VIEW top_pending_products CASCADE;

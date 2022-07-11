@@ -1,1 +1,0 @@
-DROP VIEW top_purchased_products CASCADE;
